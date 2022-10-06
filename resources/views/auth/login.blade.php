@@ -1,57 +1,177 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
-
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-input-label for="email" :value="__('Email')" />
-
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+<x-frontend.layouts.master>
+    <div class="sign-in-page">
+        <div class="row">
+            <!-- Sign-in -->
+            <div class="col-md-6 col-sm-6 sign-in">
+                <h4 class="">Sign in</h4>
+                <p class="">Hello, Welcome to your account.</p>
+                <div class="social-sign-in outer-top-xs">
+                    <a href="#" class="facebook-sign-in"><i class="fa fa-facebook"></i> Sign In with Facebook</a>
+                    <a href="#" class="twitter-sign-in"><i class="fa fa-twitter"></i> Sign In with Twitter</a>
+                </div>
+                <form class="register-form outer-top-xs" action="{{ route('login') }}" method="POST" role="form">
+                    @csrf
+                    <div class="form-group">
+                        <label class="info-title" for="exampleInputEmail1">Email Address <span>*</span></label>
+                        <input type="email" name="email" class="form-control unicase-form-control text-input"
+                            id="exampleInputEmail1">
+                    </div>
+                    <div class="form-group">
+                        <label class="info-title" for="exampleInputPassword1">Password <span>*</span></label>
+                        <input type="password" name="password" class="form-control unicase-form-control text-input"
+                            id="exampleInputPassword1">
+                    </div>
+                    <div class="radio outer-xs">
+                        <label>
+                            <input type="radio" name="remember" id="optionsRadios2" value="option2">Remember me!
+                        </label>
+                        @if (Route::has('password.request'))
+                            <a href="{{ route('password.request') }}" class="forgot-password pull-right">Forgot your
+                                Password?</a>
+                        @endif
+                    </div>
+                    <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Login</button>
+                </form>
             </div>
+            <!-- Sign-in -->
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
+            <!-- create a new account -->
+            <div class="col-md-6 col-sm-6 create-new-account">
+                <h4 class="checkout-subtitle">Create a new account</h4>
+                <p class="text title-tag-line">Create your new account.</p>
+                <form class="register-form outer-top-xs" action="{{ route('register') }}" method="POST" role="form">
+                    @csrf
+                    <div class="form-group">
+                        <label class="info-title" for="exampleInputEmail2">Email Address <span>*</span></label>
+                        <input type="email" name="email" class="form-control unicase-form-control text-input"
+                            id="exampleInputEmail2">
+                        @error('email')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label class="info-title" for="exampleInputEmail1">Name <span>*</span></label>
+                        <input type="text" name="name" class="form-control unicase-form-control text-input"
+                            id="exampleInputEmail1">
+                        @error('name')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label class="info-title" for="exampleInputEmail1">Phone Number</label>
+                        <input type="tel" name="phone" class="form-control unicase-form-control text-input"
+                            id="exampleInputEmail1">
+                        @error('phone')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label class="info-title" for="exampleInputEmail1">Password <span>*</span></label>
+                        <input type="password" name="password" class="form-control unicase-form-control text-input"
+                            id="exampleInputEmail1">
+                        @error('password')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label class="info-title" for="exampleInputEmail1">Confirm Password <span>*</span></label>
+                        <input type="password" name="password_confirmation"
+                            class="form-control unicase-form-control text-input" id="exampleInputEmail1">
+                    </div>
+                    <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Sign Up</button>
+                </form>
 
-                <x-text-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
 
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
+            <!-- create a new account -->
+        </div><!-- /.row -->
+    </div><!-- /.sigin-in-->
+    <!-- ============================================== BRANDS CAROUSEL ============================================== -->
+    <div id="brands-carousel" class="logo-slider wow fadeInUp">
 
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
+        <div class="logo-slider-inner">
+            <div id="brand-slider" class="owl-carousel brand-slider custom-carousel owl-theme">
+                <div class="item m-t-15">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand1.png') }}"
+                            src="assets/images/blank.gif" alt="">
                     </a>
-                @endif
+                </div>
+                <!--/.item-->
 
-                <x-primary-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-primary-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+                <div class="item m-t-10">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand2.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand3.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand4.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand5.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand6.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand7.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand8.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand9.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand1.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+            </div><!-- /.owl-carousel #logo-slider -->
+        </div><!-- /.logo-slider-inner -->
+
+    </div>
+</x-frontend.layouts.master>

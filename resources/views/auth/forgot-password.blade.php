@@ -1,35 +1,118 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+<x-frontend.layouts.master>
+    <div class="sign-in-page" style="min-height: 32.1vh">
+        <div class="row">
+            <!-- Sign-in -->
+            <div class="col-md-10 col-sm-12 sign-in">
+                <h4 class="">Forgot your password</h4>
+                <p class="">Forgot your password? No problem. Just let us know your email address and we will email
+                    you a password reset link that will allow you to choose a new one.</p>
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
-        </div>
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+                <x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <form method="POST" action="{{ route('password.email') }}">
-            @csrf
+                <form class="register-form outer-top-xs" action="{{ route('password.email') }}" method="POST"
+                    role="form">
+                    @csrf
+                    <div class="form-group">
+                        <label class="info-title" for="exampleInputEmail1">Email Address <span>*</span></label>
+                        <input type="email" name="email" class="form-control unicase-form-control text-input"
+                            id="exampleInputEmail1">
+                    </div>
 
-            <!-- Email Address -->
-            <div>
-                <x-input-label for="email" :value="__('Email')" />
-
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Email Password Reset
+                        Link</button>
+                </form>
             </div>
+            <!-- Sign-in -->
 
-            <div class="flex items-center justify-end mt-4">
-                <x-primary-button>
-                    {{ __('Email Password Reset Link') }}
-                </x-primary-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+        </div><!-- /.row -->
+    </div><!-- /.sigin-in-->
+    <!-- ============================================== BRANDS CAROUSEL ============================================== -->
+    <div id="brands-carousel" class="logo-slider wow fadeInUp">
+
+        <div class="logo-slider-inner">
+            <div id="brand-slider" class="owl-carousel brand-slider custom-carousel owl-theme">
+                <div class="item m-t-15">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand1.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item m-t-10">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand2.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand3.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand4.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand5.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand6.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand7.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand8.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand9.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+
+                <div class="item">
+                    <a href="#" class="image">
+                        <img data-echo="{{ asset('frontend/assets/images/brands/brand1.png') }}"
+                            src="assets/images/blank.gif" alt="">
+                    </a>
+                </div>
+                <!--/.item-->
+            </div><!-- /.owl-carousel #logo-slider -->
+        </div><!-- /.logo-slider-inner -->
+    </div>
+
+</x-frontend.layouts.master>

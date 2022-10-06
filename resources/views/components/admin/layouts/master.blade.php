@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../images/favicon.ico">
 
-    <title>Sunny Admin - Dashboard</title>
+    <title>{{$pageTitle}}</title>
     
 	<!-- Vendors Style-->
 	<link rel="stylesheet" href="{{asset('/admin_ui/main/css/vendors_css.css')}}">
@@ -16,12 +16,14 @@
 	<!-- Style-->  
 	<link rel="stylesheet" href="{{asset('/admin_ui/main/css/style.css')}}">
 	<link rel="stylesheet" href="{{asset('/admin_ui/main/css/skin_color.css')}}">
-     
+  <script src="//unpkg.com/alpinejs" defer></script>
   </head>
 
 <body class="hold-transition dark-skin sidebar-mini theme-primary fixed">
 	
 <div class="wrapper">
+
+  <x-admin.partials.flash_message />
 
   {{-- Header --}}
    <x-admin.partials.header />
@@ -58,15 +60,18 @@
 	 
 	<!-- Vendor JS -->
 	<script src="{{asset('admin_ui/main/js/vendors.min.js')}}"></script>
-    <script src="{{asset('admin_ui/assets/icons/feather-icons/feather.min.js')}}"></script>	
+  <script src="{{asset('admin_ui/assets/icons/feather-icons/feather.min.js')}}"></script>	
 	<script src="{{asset('admin_ui/assets/vendor_components/easypiechart/dist/jquery.easypiechart.js')}}"></script>
 	<script src="{{asset('admin_ui/assets/vendor_components/apexcharts-bundle/irregular-data-series.js')}}"></script>
 	<script src="{{asset('admin_ui/assets/vendor_components/apexcharts-bundle/dist/apexcharts.js')}}"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	
 	<!-- Sunny Admin App -->
 	<script src="{{asset('admin_ui/main/js/template.js')}}"></script>
 	<script src="{{asset('admin_ui/main/js/pages/dashboard.js')}}"></script>
 	
-	
+  {{-- Additional Js --}}
+  <script src="{{asset('js/script.js')}}"></script>
 </body>
 </html>
