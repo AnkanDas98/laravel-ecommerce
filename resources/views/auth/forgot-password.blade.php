@@ -1,4 +1,5 @@
 <x-frontend.layouts.master>
+    <x-slot name='pageTitle'>Forget Password</x-slot>
     <div class="sign-in-page" style="min-height: 32.1vh">
         <div class="row">
             <!-- Sign-in -->

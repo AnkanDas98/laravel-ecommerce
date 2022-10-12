@@ -1,4 +1,5 @@
 <x-frontend.layouts.master>
+    <x-slot name='pageTitle'>Login</x-slot>
     <div class="sign-in-page">
         <div class="row">
             <!-- Sign-in -->

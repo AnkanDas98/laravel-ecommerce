@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <meta name="keywords" content="MediaCenter, Template, eCommerce">
     <meta name="robots" content="all">
-    <title>Flipmart premium HTML5 & CSS3 Template</title>
+    <title>{{ $pageTitle }}</title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap.min.css') }}">
@@ -73,6 +73,8 @@
     <script src="{{ asset('frontend/assets/js/wow.min.js') }}"></script>
 
     <script src="{{ asset('frontend/assets/js/scripts.js') }}"></script>
+
+    <script src="{{ asset('js/script.js') }}"></script>
 </body>
 
 </html>

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\Frontend\UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +20,8 @@ Route::get('/', function () {
     return view('frontend.index');
 });
 
+
+// Admin Routes
 Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function(){
     Route::get('/dashboard', function () {
         return view('admin.index');
@@ -32,8 +36,30 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function(){
     });
 });
 
+// Admin Brand All Routes
+Route::prefix('brand')->middleware(['auth', 'role:admin'])->group(function(){
+   Route::controller(BrandController::class)->group(function(){
+     Route::get('/view', 'brandView')->name('all.brand');
+     Route::post('/store', 'storeBrand')->name('brand.store');
+     Route::get('/{id}/edit', 'editBrand')->name('edit.brand');
+     Route::put('/{id}/edit', 'updateBrand')->name('update.brand');
+     Route::delete('/{id}/delete', 'deleteBrand')->name('delete.brand');
+   });
+   
+});
+
+// User Routes
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('frontend.dashboard');
 })->middleware(['auth', 'verified', 'role:user'])->name('dashboard');
+
+Route::prefix('user')->middleware(['auth', 'role:user'])->group(function(){
+    Route::controller(UserProfileController::class)->group(function(){
+        Route::get('/profile', 'userProfile')->name('user.profile');
+        Route::put('/profile', 'userProfileUpdate')->name('user.profile.update');
+        Route::get('/profile/password', 'editPassword')->name('user.profile.password.edit');
+        Route::put('/profile/password', 'updatePassword')->name('user.profile.password.update');
+    });
+});
 
 require __DIR__.'/auth.php';
