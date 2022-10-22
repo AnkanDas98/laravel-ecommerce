@@ -1,5 +1,5 @@
 @php
-$adminData = App\Models\User::find(auth()->user()->id);
+    $adminData = App\Models\User::find(auth()->user()->id);
 @endphp
 
 <header class="main-header">
@@ -140,11 +140,6 @@ $adminData = App\Models\User::find(auth()->user()->id);
 
                         </li>
                     </ul>
-                </li>
-                <li>
-                    <a href="#" data-toggle="control-sidebar" title="Setting" class="waves-effect waves-light">
-                        <i class="ti-settings"></i>
-                    </a>
                 </li>
 
             </ul>

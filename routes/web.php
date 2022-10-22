@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Frontend\UserProfileController;
 
 /*
@@ -47,6 +50,52 @@ Route::prefix('brand')->middleware(['auth', 'role:admin'])->group(function(){
    });
    
 });
+
+// Admin Category All Routes
+Route::prefix('category')->middleware(['auth', 'role:admin'])->group(function(){
+    Route::controller(CategoryController::class)->group(function(){
+      Route::get('/view', 'viewCategory')->name('all.category');
+      Route::post('/store', 'storeCategory')->name('store.category');
+      Route::get('/{id}/edit', 'editCategory')->name('edit.category');
+      Route::put('/{id}/edit', 'updateCategory')->name('update.category');
+      Route::delete('/{id}/delete', 'deleteCategory')->name('delete.category');
+    });
+      //   SubCategory
+      Route::controller(SubCategoryController::class)->group(function(){
+      Route::get('/sub/view', 'viewSubCategory')->name('all.subCategory');
+      Route::post('/sub/store', 'storeSubCategory')->name('store.subCategory');
+      Route::get('/sub/{id}/edit', 'editSubCategory')->name('edit.subCategory');
+      Route::put('/sub/{id}/edit', 'updateSubCategory')->name('update.subCategory');
+      Route::delete('/sub/{id}/delete', 'deleteSubCategory')->name('delete.subCategory');
+      });
+
+       //   Sub SubCategory
+       Route::controller(SubCategoryController::class)->group(function(){
+        Route::get('/sub/sub/view', 'viewSubSubCategory')->name('all.sub.subCategory');
+        Route::post('/sub/sub/store', 'storeSubSubCategory')->name('store.sub.subCategory');
+        Route::get('/sub/sub/{id}/edit', 'editSubSubCategory')->name('edit.sub.subCategory');
+        Route::put('/sub/sub/{id}/edit', 'updateSubSubCategory')->name('update.sub.subCategory');
+        Route::delete('/sub/sub/{id}/delete', 'deleteSubSubCategory')->name('delete.sub.subCategory');   
+        
+        Route::get('/subCategory/fetch/{id}', 'getSubCategory');
+     });
+    
+ });
+
+// Admin Products all Routes
+Route::prefix('product')->middleware(['auth', 'role:admin'])->group(function(){
+    Route::controller(ProductController::class)->group(function(){
+      Route::get('/add', 'addProduct')->name('add-product');
+      Route::post('/store', 'storeProduct')->name('store.product');
+    //   Route::get('/{id}/edit', 'editBrand')->name('edit.brand');
+    //   Route::put('/{id}/edit', 'updateBrand')->name('update.brand');
+    //   Route::delete('/{id}/delete', 'deleteBrand')->name('delete.brand');
+
+    Route::get('/subsubCategory/fetch/{id}', 'getSubSubCategory');
+    });
+    
+ });
+
 
 // User Routes
 Route::get('/dashboard', function () {

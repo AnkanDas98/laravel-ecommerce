@@ -1,7 +1,7 @@
 @php
-$prefix = Request::route()->getPrefix();
-$route = Route::current()->getName();
-
+    $prefix = Request::route()->getPrefix();
+    $route = Route::current()->getName();
+    
 @endphp
 
 <aside class="main-sidebar">
@@ -44,34 +44,37 @@ $route = Route::current()->getName();
                 </ul>
             </li>
 
-            <li class="treeview">
+            <li class="treeview {{ $prefix == '/category' ? 'active' : '' }}">
                 <a href="#">
-                    <i data-feather="mail"></i> <span>Mailbox</span>
+                    <i data-feather="mail"></i> <span>Category</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-right pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="mailbox_inbox.html"><i class="ti-more"></i>Inbox</a></li>
-                    <li><a href="mailbox_compose.html"><i class="ti-more"></i>Compose</a></li>
-                    <li><a href="mailbox_read_mail.html"><i class="ti-more"></i>Read</a></li>
+                    <li class="{{ $route == 'all.category' ? 'active' : '' }}"><a href="{{ route('all.category') }}"><i
+                                class="ti-more"></i>All Categories</a></li>
+                    <li class="{{ $route == 'all.subCategory' ? 'active' : '' }}"><a
+                            href="{{ route('all.subCategory') }}"><i class="ti-more"></i>All Sub Categories</a></li>
+                    <li class="{{ $route == 'all.sub.subCategory' ? 'active' : '' }}"><a
+                            href="{{ route('all.sub.subCategory') }}"><i class="ti-more"></i>All Sub Subcategories</a>
+                    </li>
                 </ul>
             </li>
 
-            <li class="treeview">
+            <li class="treeview {{ $prefix == '/product' ? 'active' : '' }}">
                 <a href="#">
                     <i data-feather="file"></i>
-                    <span>Pages</span>
+                    <span>Products</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-right pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="profile.html"><i class="ti-more"></i>Profile</a></li>
-                    <li><a href="invoice.html"><i class="ti-more"></i>Invoice</a></li>
-                    <li><a href="gallery.html"><i class="ti-more"></i>Gallery</a></li>
-                    <li><a href="faq.html"><i class="ti-more"></i>FAQs</a></li>
-                    <li><a href="timeline.html"><i class="ti-more"></i>Timeline</a></li>
+                    <li class="{{ $route == 'add-product' ? 'active' : '' }}"><a href="{{ route('add-product') }}"><i
+                                class="ti-more"></i>Add Products</a></li>
+                    <li><a href="invoice.html"><i class="ti-more"></i>Manage Products</a></li>
+
                 </ul>
             </li>
 

@@ -16,11 +16,17 @@
                         <label class="info-title" for="exampleInputEmail1">Email Address <span>*</span></label>
                         <input type="email" name="email" class="form-control unicase-form-control text-input"
                             id="exampleInputEmail1">
+                        @error('email')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label class="info-title" for="exampleInputPassword1">Password <span>*</span></label>
                         <input type="password" name="password" class="form-control unicase-form-control text-input"
                             id="exampleInputPassword1">
+                        @error('password')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="radio outer-xs">
                         <label>
@@ -44,9 +50,9 @@
                     @csrf
                     <div class="form-group">
                         <label class="info-title" for="exampleInputEmail2">Email Address <span>*</span></label>
-                        <input type="email" name="email" class="form-control unicase-form-control text-input"
+                        <input type="email" name="register_email" class="form-control unicase-form-control text-input"
                             id="exampleInputEmail2">
-                        @error('email')
+                        @error('register_email')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
@@ -68,16 +74,19 @@
                     </div>
                     <div class="form-group">
                         <label class="info-title" for="exampleInputEmail1">Password <span>*</span></label>
-                        <input type="password" name="password" class="form-control unicase-form-control text-input"
-                            id="exampleInputEmail1">
-                        @error('password')
+                        <input type="password" name="register_password"
+                            class="form-control unicase-form-control text-input" id="exampleInputEmail1">
+                        @error('register_password')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label class="info-title" for="exampleInputEmail1">Confirm Password <span>*</span></label>
-                        <input type="password" name="password_confirmation"
+                        <input type="password" name="register_password_confirmation"
                             class="form-control unicase-form-control text-input" id="exampleInputEmail1">
+                        @error('register_password_confirmation')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                     <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Sign Up</button>
                 </form>

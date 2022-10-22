@@ -53,9 +53,6 @@
         <!-- /.content-wrapper -->
         <x-admin.partials.footer />
 
-        <!-- Control Sidebar -->
-        <x-admin.partials.control-sidebar />
-        <!-- /.control-sidebar -->
 
         <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
@@ -67,6 +64,10 @@
     <!-- Vendor JS -->
     <script src="{{ asset('admin_ui/main/js/vendors.min.js') }}"></script>
     <script src="{{ asset('admin_ui/assets/icons/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('admin_ui/assets/vendor_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js') }}"></script>
+    <script src="{{ asset('admin_ui/assets/vendor_components/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('admin_ui/assets/vendor_plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js') }}"></script>
+    <script src="{{ asset('admin_ui/main/js/pages/editor.js') }}"></script>
     <script src="{{ asset('admin_ui/assets/vendor_components/easypiechart/dist/jquery.easypiechart.js') }}"></script>
     <script src="{{ asset('admin_ui/assets/vendor_components/apexcharts-bundle/irregular-data-series.js') }}"></script>
     <script src="{{ asset('admin_ui/assets/vendor_components/apexcharts-bundle/dist/apexcharts.js') }}"></script>
