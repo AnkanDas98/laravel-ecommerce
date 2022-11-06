@@ -7,11 +7,20 @@ if (image_input) {
         reader.addEventListener("load", () => {
             const uploadImage = reader.result;
 
-            document.querySelector("#showImage").style.display = "block";
+            document.querySelector("#showImage").style.display === "none"
+                ? (document.querySelector("#showImage").style.display = "block")
+                : "";
 
             document
                 .querySelector("#showImage")
                 .setAttribute("src", uploadImage);
+            if (document.querySelector("#image_thumbnail_lebel")) {
+                document.querySelector("#image_thumbnail_lebel").style.display =
+                    "none";
+                document.querySelector(
+                    "#image_thumbnail_button"
+                ).style.display = "block";
+            }
         });
         reader.readAsDataURL(this.files[0]);
     });
@@ -82,6 +91,7 @@ forms.forEach((form) => {
 // Get Sub Category based on Category
 const category = document.querySelector("#category");
 const subCategory = document.querySelector("#sub_category");
+const subsubcategory = document.querySelector("#subsubcategory");
 
 const getSubSubCategory = async function (subCategoryvalue = null, e = null) {
     const subCategoryId = e ? e.target.value : subCategoryvalue;
@@ -91,12 +101,24 @@ const getSubSubCategory = async function (subCategoryvalue = null, e = null) {
                 "/product/subsubCategory/fetch/" + subCategoryId
             );
             const data = await response.json();
-            console.log(data);
+
             if (data.length > 0) {
                 subsubcategory.innerHTML = "";
                 data.forEach((item) => {
-                    subsubcategory.innerHTML += `<option value="${item.id}" >${item.sub_sub_category_name_eng}</option>`;
+                    if (category.dataset.need) {
+                        subsubcategory.innerHTML += `<option value="${
+                            item.id
+                        }" ${
+                            item.id === +subsubcategory.dataset.productsubsubid
+                                ? "selected"
+                                : ""
+                        }>${item.sub_sub_category_name_eng}</option>`;
+                    } else {
+                        subsubcategory.innerHTML += `<option value="${item.id}" >${item.sub_sub_category_name_eng}</option>`;
+                    }
                 });
+            } else {
+                subsubcategory.innerHTML = `<option value="" >No Sub Subcategory Found</option>`;
             }
         } catch (error) {
             console.log(error);
@@ -121,14 +143,20 @@ const categoryChange = async function (categoryvalue = null, e = null) {
                 data.forEach((item) => {
                     if (category.dataset.need) {
                         subCategory.innerHTML += `<option value="${item.id}" ${
-                            item.id === +subCategory.dataset.subsubcategoryid &&
-                            "selected"
+                            item.id === +subCategory.dataset.subsubcategoryid ||
+                            item.id === +subCategory.dataset.productsubcatid
+                                ? "selected"
+                                : ""
                         }>${item.sub_category_name_eng}</option>`;
                     } else {
                         subCategory.innerHTML += `<option value="${item.id}" >${item.sub_category_name_eng}</option>`;
                     }
                 });
-                subCategory.value && getSubSubCategory(subCategory.value, "");
+                subsubcategory &&
+                    subCategory.value &&
+                    getSubSubCategory(subCategory.value, "");
+            } else {
+                subCategory.innerHTML += `<option value="" >No Sub Category Found!</option>`;
             }
         } catch (error) {
             console.log(error);
@@ -143,6 +171,11 @@ category.value && categoryChange(category.value, "");
 category.addEventListener("change", (e) => categoryChange("", e));
 
 //add produts
-const subsubcategory = document.querySelector("#subsubcategory");
-subCategory.value && getSubSubCategory(subCategory.value, "");
+
+// subCategory.value && getSubSubCategory(subCategory.value, "");
 subCategory.addEventListener("change", (e) => getSubSubCategory("", e));
+
+//Add multiImage
+document.querySelector("#add_image").addEventListener("change", function () {
+    this.form.submit();
+});

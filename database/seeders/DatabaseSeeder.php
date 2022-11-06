@@ -18,13 +18,13 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-    //    $user = \App\Models\User::create([
-    //         'name' => 'ankan',
-    //         'email' => 'ankan@gmail.com',
-    //         'password' => Hash::make('ank123456')
-    //     ]);
+       $user = \App\Models\User::create([
+            'name' => 'Ankan',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('ank123456')
+        ]);
 
-    //     $user->attachRole('admin');
+        $user->attachRole('admin');
 
         // $this->call(LaratrustSeeder::class);
     }

@@ -2,9 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Frontend\HomepageController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Frontend\UserProfileController;
 
@@ -19,12 +22,17 @@ use App\Http\Controllers\Frontend\UserProfileController;
 |
 */
 
-Route::get('/', function () {
-    return view('frontend.index');
-});
+//----------------------------------------------------------------------------------------//
+// --------------------------------All Guest Routes---------------------------------------//
+//----------------------------------------------------------------------------------------//
+Route::get('/', [HomepageController::class, 'index']);
 
+Route::get('/language/bangla', [LanguageController::class, 'bangla'])->name('language.bangla');
+Route::get('/language/english', [LanguageController::class, 'english'])->name('language.english');
 
-// Admin Routes
+//----------------------------------------------------------------------------------------//
+// --------------------------------All Admin Routes---------------------------------------//
+//----------------------------------------------------------------------------------------//
 Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function(){
     Route::get('/dashboard', function () {
         return view('admin.index');
@@ -87,17 +95,38 @@ Route::prefix('product')->middleware(['auth', 'role:admin'])->group(function(){
     Route::controller(ProductController::class)->group(function(){
       Route::get('/add', 'addProduct')->name('add-product');
       Route::post('/store', 'storeProduct')->name('store.product');
-    //   Route::get('/{id}/edit', 'editBrand')->name('edit.brand');
-    //   Route::put('/{id}/edit', 'updateBrand')->name('update.brand');
-    //   Route::delete('/{id}/delete', 'deleteBrand')->name('delete.brand');
+      Route::get('/manage', 'manageProducts')->name('manage.product');
+      Route::get('/{id}/edit', 'editProduct')->name('edit.product');
+      Route::put('/{id}/edit', 'updateProduct')->name('update.product');
+      Route::post('/multi/image', 'addMultiImage')->name('add.multiImage');
+      Route::put('/multi/image/update', 'updateMultiImage')->name('update.product-multiImage');
+      Route::put('/thumbnail', 'updateThumbnailImage')->name('update.thumbnail');
+      Route::delete('/multi/image/{id}/delete', 'deleteMultiImage')->name('delete.product-multiImage');
+      Route::put('/status', 'updateProductStaus')->name('update.product.status');
+      Route::delete('/{id}/delete', 'deleteProduct')->name('delete.product');
 
-    Route::get('/subsubCategory/fetch/{id}', 'getSubSubCategory');
+      Route::get('/subsubCategory/fetch/{id}', 'getSubSubCategory');
     });
     
  });
 
+// Admin Slider Routes
+ Route::prefix('slider')->middleware(['auth', 'role:admin'])->group(function(){
+    Route::controller(SliderController::class)->group(function(){
+      Route::get('/view', 'sliderView')->name('all.slider');
+      Route::post('/store', 'storeSlider')->name('store.slider');
+      Route::get('/{id}/edit', 'editSlider')->name('edit.slider');
+      Route::put('/{id}/edit', 'updateSlider')->name('update.slider');
+    Route::put('/status', 'updateSliderStaus')->name('update.slider.status');
+      Route::delete('/{id}/delete', 'deleteSlider')->name('delete.slider');
+    });
+    
+ });
 
-// User Routes
+//----------------------------------------------------------------------------------------//
+// --------------------------------All User Routes---------------------------------------//
+//----------------------------------------------------------------------------------------//
+
 Route::get('/dashboard', function () {
     return view('frontend.dashboard');
 })->middleware(['auth', 'verified', 'role:user'])->name('dashboard');
@@ -110,5 +139,6 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function(){
         Route::put('/profile/password', 'updatePassword')->name('user.profile.password.update');
     });
 });
+
 
 require __DIR__.'/auth.php';

@@ -73,10 +73,42 @@
                 <ul class="treeview-menu">
                     <li class="{{ $route == 'add-product' ? 'active' : '' }}"><a href="{{ route('add-product') }}"><i
                                 class="ti-more"></i>Add Products</a></li>
-                    <li><a href="invoice.html"><i class="ti-more"></i>Manage Products</a></li>
+                    <li><a href="{{ route('manage.product') }}"><i class="ti-more"></i>Manage Products</a></li>
 
                 </ul>
             </li>
+
+            {{-- <li class="treeview {{ $prefix == '/product' ? 'active' : '' }}">
+                <a href="#">
+                    <i data-feather="file"></i>
+                    <span>Products</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{ $route == 'add-product' ? 'active' : '' }}"><a href="{{ route('add-product') }}"><i
+                                class="ti-more"></i>Add Products</a></li>
+                    <li class="{{ $route == 'manage.product' ? 'active' : '' }}"><a
+                            href="{{ route('manage.product') }}"><i class="ti-more"></i>Manage Products</a></li>
+
+                </ul>
+            </li> --}}
+
+            <li class="treeview {{ $prefix == '/slider' ? 'active' : '' }}">
+                <a href="#">
+                    <i data-feather="file"></i>
+                    <span>Slider</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{ $route == 'all.slider' ? 'active' : '' }}"><a href="{{ route('all.slider') }}"><i
+                                class="ti-more"></i>All Sliders</a></li>
+                </ul>
+            </li>
+
 
             <li class="header nav-small-cap">User Interface</li>
 
@@ -123,7 +155,7 @@
         <a href="mailbox_inbox.html" class="link" data-toggle="tooltip" title="" data-original-title="Email"><i
                 class="ti-email"></i></a>
         <!-- item-->
-        <a href="javascript:void(0)" class="link" data-toggle="tooltip" title="" data-original-title="Logout"><i
-                class="ti-lock"></i></a>
+        <a href="javascript:void(0)" class="link" data-toggle="tooltip" title=""
+            data-original-title="Logout"><i class="ti-lock"></i></a>
     </div>
 </aside>

@@ -90,7 +90,7 @@ class SubCategoryController extends Controller
       $request->validate([
         'category_id' => 'required',
         'sub_category_id' => 'required',
-        'sub_sub_category_name_eng' => 'required|min:4',
+        'sub_sub_category_name_eng' => 'required|min:2',
         'sub_sub_category_name_ban' => 'required|min:2',
       ]);
            
