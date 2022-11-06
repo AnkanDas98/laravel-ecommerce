@@ -27,8 +27,12 @@ use App\Http\Controllers\Frontend\UserProfileController;
 //----------------------------------------------------------------------------------------//
 Route::get('/', [HomepageController::class, 'index']);
 
+// Language Routes
 Route::get('/language/bangla', [LanguageController::class, 'bangla'])->name('language.bangla');
 Route::get('/language/english', [LanguageController::class, 'english'])->name('language.english');
+
+// Product Details page url
+Route::get('/product/detail/{id}/{slug}', [HomepageController::class, 'productDetail']);
 
 //----------------------------------------------------------------------------------------//
 // --------------------------------All Admin Routes---------------------------------------//

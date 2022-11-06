@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\SubSubCategory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,5 +21,10 @@ class Category extends Model
     public function subSubCategory()
     {
         return $this->hasMany(SubSubCategory::class);
+    }
+
+    public function product()
+    {
+        return $this->hasMany(Product::class);
     }
 }

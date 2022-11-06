@@ -105,7 +105,7 @@
 
                                                 <div class="product-info text-left">
                                                     <h3 class="name"><a
-                                                            href="detail.html">{{ session()->get('language') == 'bangla' ? $product->product_name_bn : $product->product_name_en }}</a>
+                                                            href="{{ url('/product/detail/' . $product->id . '/' . $product->product_slug_en) }}">{{ session()->get('language') == 'bangla' ? $product->product_name_bn : $product->product_name_en }}</a>
                                                     </h3>
                                                     <div class="rating rateit-small"></div>
                                                     <div class="description"></div>
@@ -195,7 +195,7 @@
 
                                                     <div class="product-info text-left">
                                                         <h3 class="name"><a
-                                                                href="detail.html">{{ session()->get('language') == 'bangla' ? $product->product_name_bn : $product->product_name_en }}</a>
+                                                                href="{{ url('/product/detail/' . $product->id . '/' . $product->product_slug_en) }}">{{ session()->get('language') == 'bangla' ? $product->product_name_bn : $product->product_name_en }}</a>
                                                         </h3>
                                                         <div class="rating rateit-small"></div>
                                                         <div class="description"></div>

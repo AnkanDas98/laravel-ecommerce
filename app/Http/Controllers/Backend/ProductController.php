@@ -50,7 +50,7 @@ class ProductController extends Controller
             'short_descp_bn' => 'required|min:10',
             'long_descp_en' => 'required|min:20',
             'long_descp_bn' => 'required|min:20',
-            'product_thumbnail' => 'required|image|mimes:jpg,bmp,png,jpeg',
+            'product_thumbnail' => 'required|image|mimes:jpg,bmp,png,jpeg,webp',
             'hot_deals'=>'nullable',
             'featured'=>'nullable',
             'special_offer'=>'nullable',
@@ -248,7 +248,7 @@ class ProductController extends Controller
 
         
         $request->validate([
-            'product_thumbnail' => 'required|image|mimes:png,jpg, jpeg'
+            'product_thumbnail' => 'required|image|mimes:png,jpg, jpeg,webp'
         ]);
 
         $imgData = Product::findOrFail($request->product_id);
