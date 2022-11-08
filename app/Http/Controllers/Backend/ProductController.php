@@ -187,7 +187,7 @@ class ProductController extends Controller
             'featured'=>$request->featured ?? null,
             'special_offer'=>$request->special_offer ?? null,
             'special_deal'=>$request->special_deal ?? null,
-            'status' => $request->status ?? 0,
+           
             'created_at' => Carbon::now()
         ]);    
         
