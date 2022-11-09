@@ -29,4 +29,23 @@ class HomepageController extends Controller
         $multiImages = MultiImage::where('product_id', $product->id)->orderBy('id', 'DESC')->get();
         return view('frontend.product.product_detail', compact('product', 'multiImages'));
     }
+
+    public function productByTagEng(Request $request){
+        $tag = $request->query('tag');
+
+        $products = Product::where('status', 1)->where('product_tags_en', 'LIKE', '%' . $tag . '%')->paginate(3);
+
+        return view('frontend.tags.tags_view', compact('products'));
+    }
+
+    public function productByTagBan(Request $request){
+        $tag = $request->query('tag');
+
+        $products = Product::where('product_tags_bn', 'LIKE', '%' . $tag . '%')->paginate(3);
+
+      
+
+        return view('frontend.tags.tags_view', compact('products'));
+       
+    }
 }

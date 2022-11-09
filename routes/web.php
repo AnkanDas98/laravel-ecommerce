@@ -34,6 +34,10 @@ Route::get('/language/english', [LanguageController::class, 'english'])->name('l
 // Product Details page url
 Route::get('/product/detail/{id}/{slug}', [HomepageController::class, 'productDetail']);
 
+//Product Tag Route
+Route::get('/product/tag/eng', [HomepageController::class, 'productByTagEng']);
+Route::get('/product/tag/ban', [HomepageController::class, 'productByTagBan']);
+
 //----------------------------------------------------------------------------------------//
 // --------------------------------All Admin Routes---------------------------------------//
 //----------------------------------------------------------------------------------------//
