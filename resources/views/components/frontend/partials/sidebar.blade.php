@@ -71,7 +71,8 @@
                                     @foreach ($subCategories as $subCategory)
                                         <div class="col-sm-12 col-md-3">
                                             <h2 class="title">
-                                                {{ session()->get('language') == 'bangla' ? $subCategory->sub_category_name_ban : $subCategory->sub_category_name_eng }}
+                                                <a
+                                                    href="{{ url('/category/' . $subCategory->id . '/' . $subCategory->sub_category_slug_eng . '?type=subcategory') }}">{{ session()->get('language') == 'bangla' ? $subCategory->sub_category_name_ban : $subCategory->sub_category_name_eng }}</a>
                                             </h2>
                                             <ul class="links list-unstyled">
                                                 @php
@@ -81,7 +82,7 @@
                                                 @endphp
                                                 @foreach ($subsubCategories as $item)
                                                     <li><a
-                                                            href="#">{{ session()->get('language') == 'bangla' ? $item->sub_sub_category_name_ban : $item->sub_sub_category_name_eng }}</a>
+                                                            href="{{ url('/category/' . $item->id . '/' . $item->sub_sub_category_slug_eng . '?type=subsubcategory') }}">{{ session()->get('language') == 'bangla' ? $item->sub_sub_category_name_ban : $item->sub_sub_category_name_eng }}</a>
                                                     </li>
                                                 @endforeach
 
@@ -137,7 +138,8 @@
                                             @endphp
                                             <ul>
                                                 @foreach ($subCategories as $item)
-                                                    <li><a href="#">
+                                                    <li><a
+                                                            href="{{ url('/category/' . $item->id . '/' . $item->sub_category_slug_eng . '?type=subcategory') }}">
                                                             {{ session()->get('language') == 'bangla' ? $item->sub_category_name_ban : $item->sub_category_name_eng }}</a>
                                                     </li>
                                                 @endforeach

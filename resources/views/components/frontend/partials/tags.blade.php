@@ -41,12 +41,12 @@
             @if (session()->get('language') == 'bangla')
                 @foreach ($banTagsUnique as $tag)
                     <a class="item active" title="{{ $tag }}"
-                        href="{{ url('/product/tag/ban?tag=' . $tag) }}">{{ $tag }}</a>
+                        href="{{ url('/product/tag?tag=' . $tag . '&lang=ban') }}">{{ $tag }}</a>
                 @endforeach
             @else
                 @foreach ($engTagsUnique as $tag)
                     <a class="item active" title="{{ $tag }}"
-                        href="{{ url('/product/tag/eng?tag=' . $tag) }}">{{ $tag }}</a>
+                        href="{{ url('/product/tag?tag=' . $tag . '&lang=eng') }}">{{ $tag }}</a>
                 @endforeach
             @endif
         </div>

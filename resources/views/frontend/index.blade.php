@@ -129,10 +129,13 @@
                                                     <div class="action">
                                                         <ul class="list-unstyled">
                                                             <li class="add-cart-button btn-group">
-                                                                <button data-toggle="tooltip"
-                                                                    class="btn btn-primary icon" type="button"
-                                                                    title="Add Cart"> <i
-                                                                        class="fa fa-shopping-cart"></i> </button>
+                                                                <button id="productPreviewBtn"
+                                                                    class="btn btn-primary icon" title="Add to Cart"
+                                                                    type="button" data-toggle="modal"
+                                                                    data-target="#productModal"
+                                                                    data-product-id={{ $product->id }}
+                                                                    data-language={{ session()->get('language') == 'bangla' ? 'bangla' : 'English' }}>
+                                                                    <i class="fa fa-shopping-cart"></i> </button>
                                                                 <button class="btn btn-primary cart-btn"
                                                                     type="button">Add
                                                                     to cart</button>
@@ -344,8 +347,13 @@
                                         <div class="action">
                                             <ul class="list-unstyled">
                                                 <li class="add-cart-button btn-group">
-                                                    <button class="btn btn-primary icon" data-toggle="dropdown"
-                                                        type="button"> <i class="fa fa-shopping-cart"></i> </button>
+                                                    <button id="productPreviewBtn" class="btn btn-primary icon"
+                                                        title="Add to Cart" type="button" data-toggle="modal"
+                                                        data-target="#productModal"
+                                                        data-product-id={{ $item->id }}
+                                                        data-language={{ session()->get('language') == 'bangla' ? 'bangla' : 'English' }}>
+                                                        <i class="fa fa-shopping-cart"></i> </button>
+
                                                     <button class="btn btn-primary cart-btn" type="button">Add to
                                                         cart</button>
                                                 </li>

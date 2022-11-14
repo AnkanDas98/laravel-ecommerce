@@ -51,6 +51,7 @@
 
         </div>
     </div>
+    <x-frontend.partials.product_modal />
     <!-- ============================================================= FOOTER ============================================================= -->
     <x-frontend.partials.footer />
     <!-- ============================================================= FOOTER : END============================================================= -->
@@ -74,7 +75,7 @@
 
     <script src="{{ asset('frontend/assets/js/scripts.js') }}"></script>
 
-    <script src="{{ asset('js/script.js') }}"></script>
+    <script src="{{ asset('js/front.js') }}"></script>
 </body>
 
 </html>

@@ -27,16 +27,22 @@ use App\Http\Controllers\Frontend\UserProfileController;
 //----------------------------------------------------------------------------------------//
 Route::get('/', [HomepageController::class, 'index']);
 
-// Language Routes
-Route::get('/language/bangla', [LanguageController::class, 'bangla'])->name('language.bangla');
-Route::get('/language/english', [LanguageController::class, 'english'])->name('language.english');
-
 // Product Details page url
 Route::get('/product/detail/{id}/{slug}', [HomepageController::class, 'productDetail']);
 
 //Product Tag Route
-Route::get('/product/tag/eng', [HomepageController::class, 'productByTagEng']);
-Route::get('/product/tag/ban', [HomepageController::class, 'productByTagBan']);
+Route::get('/product/tag', [HomepageController::class, 'productByTag']);
+
+
+// Category Wise Product Route
+Route::get('/category/{id}/{slug}', [HomepageController::class, 'productByCategory']);
+
+// Product Preview
+Route::get('/product/view/modal/{id}', [HomepageController::class, 'productPreview']);
+
+// Language Routes
+Route::get('/language/bangla', [LanguageController::class, 'bangla'])->name('language.bangla');
+Route::get('/language/english', [LanguageController::class, 'english'])->name('language.english');
 
 //----------------------------------------------------------------------------------------//
 // --------------------------------All Admin Routes---------------------------------------//
