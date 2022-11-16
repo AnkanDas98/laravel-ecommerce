@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\CategoryController;
@@ -23,7 +24,7 @@ use App\Http\Controllers\Frontend\UserProfileController;
 */
 
 //----------------------------------------------------------------------------------------//
-// --------------------------------All Guest Routes---------------------------------------//
+// --------------------------------All Guest/User Routes---------------------------------------//
 //----------------------------------------------------------------------------------------//
 Route::get('/', [HomepageController::class, 'index']);
 
@@ -39,6 +40,14 @@ Route::get('/category/{id}/{slug}', [HomepageController::class, 'productByCatego
 
 // Product Preview
 Route::get('/product/view/modal/{id}', [HomepageController::class, 'productPreview']);
+
+// Add to Cart
+Route::post('/cart/data/store', [CartController::class, 'store'])->name('store.cart');
+
+//fetch cart data
+Route::get('/cart/data/get', [CartController::class, 'getCartData']);
+//fetch cart data
+Route::get('/cart/remove/{id}', [CartController::class, 'removeCartItem']);
 
 // Language Routes
 Route::get('/language/bangla', [LanguageController::class, 'bangla'])->name('language.bangla');

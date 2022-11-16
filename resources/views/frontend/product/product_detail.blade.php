@@ -143,86 +143,96 @@
                                         </div><!-- /.row -->
                                     </div><!-- /.price-container -->
                                     {{-- Product Color And Product Size --}}
-                                    <div class="row">
-
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                {{-- <label class="info-title control-label">Choose Color </label> --}}
-                                                <select class="form-control unicase-form-control selectpicker"
-                                                    style="display: none; z-index: 64844;">
-                                                    <option selected disabled>Choose Color</option>
-                                                    @if (session()->get('language') == 'bangla')
-                                                        @foreach ($productColorsBan as $item)
-                                                            <option value="{{ $item }}">{{ $item }}
-                                                            </option>
-                                                        @endforeach
-                                                    @else
-                                                        @foreach ($productColorsEng as $item)
-                                                            <option value="{{ $item }}">{{ $item }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
-
-                                                </select>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                {{-- <label class="info-title control-label">Choose Size </label> --}}
-                                                <select class="form-control unicase-form-control selectpicker"
-                                                    style="display: none;">
-                                                    <option selected disabled>Choose Size</option>
-                                                    @if (session()->get('language') == 'bangla')
-                                                        @foreach ($productSizeBan as $item)
-                                                            <option value="{{ $item }}">{{ $item }}
-                                                            </option>
-                                                        @endforeach
-                                                    @else
-                                                        @foreach ($productSizeEng as $item)
-                                                            <option value="{{ $item }}">{{ $item }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-
-                                            </div>
-                                        </div>
-
-                                    </div><!-- /.row -->
-
-                                    <div class="quantity-container info-container">
+                                    <form action="{{ route('store.cart') }}" method="POST">
+                                        @csrf
                                         <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    {{-- <label class="info-title control-label">Choose Color </label> --}}
+                                                    <select class="form-control" name="product_color">
+                                                        <option selected disabled>Choose Color</option>
+                                                        @if (session()->get('language') == 'bangla')
+                                                            @foreach ($productColorsBan as $item)
+                                                                <option value="{{ $item }}">
+                                                                    {{ $item }}
+                                                                </option>
+                                                            @endforeach
+                                                        @else
+                                                            @foreach ($productColorsEng as $item)
+                                                                <option value="{{ $item }}">
+                                                                    {{ $item }}
+                                                                </option>
+                                                            @endforeach
+                                                        @endif
 
-                                            <div class="col-sm-2">
-                                                <span class="label">Qty :</span>
-                                            </div>
+                                                    </select>
 
-                                            <div class="col-sm-2">
-                                                <div class="cart-quantity">
-                                                    <div class="quant-input">
-                                                        <div class="arrows">
-                                                            <div class="arrow plus gradient"><span class="ir"><i
-                                                                        class="icon fa fa-sort-asc"></i></span></div>
-                                                            <div class="arrow minus gradient"><span class="ir"><i
-                                                                        class="icon fa fa-sort-desc"></i></span></div>
-                                                        </div>
-                                                        <input type="text" value="1">
-                                                    </div>
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-7">
-                                                <a href="#" class="btn btn-primary"><i
-                                                        class="fa fa-shopping-cart inner-right-vs"></i> ADD TO CART</a>
-                                            </div>
+                                            @if ($product->product_size_en)
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        {{-- <label class="info-title control-label">Choose Size </label> --}}
+                                                        <select class="form-control" name="product_size">
+                                                            <option selected disabled>Choose Size</option>
+                                                            @if (session()->get('language') == 'bangla')
+                                                                @foreach ($productSizeBan as $item)
+                                                                    <option value="{{ $item }}">
+                                                                        {{ $item }}
+                                                                    </option>
+                                                                @endforeach
+                                                            @else
+                                                                @foreach ($productSizeEng as $item)
+                                                                    <option value="{{ $item }}">
+                                                                        {{ $item }}
+                                                                    </option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
 
+                                                    </div>
+                                                </div>
+
+                                            @endif
 
                                         </div><!-- /.row -->
-                                    </div><!-- /.quantity-container -->
+
+                                        <div class="quantity-container info-container">
+                                            <div class="row">
+
+                                                <div class="col-sm-2">
+                                                    <span class="label">Qty :</span>
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                    <div class="cart-quantity">
+                                                        <div class="quant-input">
+
+                                                            <input type="number"
+                                                                {{ $product->product_qty == 0 ? 'disabled' : '' }}
+                                                                name="product_qty" min="1"
+                                                                max="{{ $product->product_qty }}"
+                                                                value="{{ $product->product_qty == 0 ? '0' : '1' }}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-7">
+                                                    <input type="hidden" name="product_id"
+                                                        value="{{ $product->id }}">
+                                                    <button type="submit"
+                                                        {{ $product->product_qty == 0 ? 'disabled' : '' }}
+                                                        class="btn btn-primary"><i
+                                                            class="fa fa-shopping-cart inner-right-vs"></i> ADD TO
+                                                        CART</button>
+                                                </div>
 
 
+                                            </div><!-- /.row -->
+                                        </div><!-- /.quantity-container -->
+
+                                    </form>
 
 
 

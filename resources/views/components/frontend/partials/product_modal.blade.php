@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form action="{{ route('store.cart') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-md-4">
@@ -32,7 +32,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Choose Color</label>
-                                <select class="form-control" id="modalPColor">
+                                <select class="form-control" name="product_color" id="modalPColor">
                                     <option>1</option>
                                     <option>2</option>
                                     <option>3</option>
@@ -45,7 +45,7 @@
                         <div class="col-md-4" id="modalPSizeSection">
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Choose Size</label>
-                                <select class="form-control" id="modalPSize">
+                                <select class="form-control" name="product_size" id="modalPSize">
                                     <option>1</option>
                                     <option>2</option>
                                     <option>3</option>
@@ -57,12 +57,14 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1">Quantity</label>
-                                <input type="number" class="form-control" id="modalPQty" placeholder="name@example.com"
-                                    value="1" min="1">
+                                <input type="number" class="form-control" name="product_qty" id="modalPQty"
+                                    placeholder="name@example.com" value="1" min="1">
                             </div>
 
                         </div>
-                        <button type="submit" class="btn btn-primary mb-2" style="margin-left: 15px;">Submit</button>
+                        <input type="hidden" id="modalPId" name="product_id">
+                        <button type="submit" id="modalPBtn" class="btn btn-primary mb-2"
+                            style="margin-left: 15px;">Submit</button>
                     </div>
                 </form>
             </div>
