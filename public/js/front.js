@@ -144,7 +144,7 @@ async function loadMiniCart() {
                                             </div>
                                             <div class="col-xs-7">
                                                 <h3 class="name"><a href="index.php?page-detail">${contents.name}</a></h3>
-                                                <div class="price">৳ ${contents.price}</div>
+                                                <div class="price">৳ ${contents.price} X ${contents.qty}</div>
                                             </div>
                                             <div class="col-xs-1 action" data-cart-id = "${contents.rowId}" id='miniCartRemove'> <a href="#"><i
                                                         class="fa fa-trash"></i></a> </div>
@@ -183,6 +183,7 @@ async function removeMiniCartItem(rowId) {
         // const data = await response.json();
         if (response.ok) {
             loadMiniCart();
+            document.getElementById("cartPage") && getCart();
         }
     } catch (error) {
         console.log(error);
@@ -301,6 +302,123 @@ async function getWishList() {
     }
 }
 
+async function cartDcrement(id) {
+    try {
+        const response = await fetch("/cart/" + id + "?type=decrement");
+        if (response.ok) {
+            getCart();
+            loadMiniCart();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function cartIncrement(id) {
+    try {
+        const response = await fetch("/cart/" + id + "?type=increment");
+        if (response.ok) {
+            getCart();
+            loadMiniCart();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function getCart() {
+    const cart = document.getElementById("cartPage");
+    try {
+        const response = await fetch("/get/cart");
+        const data = await response.json();
+        cart.innerHTML = "";
+        if (data) {
+            for (let item in data.carts) {
+                let contents = data.carts[item];
+                cart.innerHTML += `
+            <tr>
+                <td class="col-md-2"><img
+                        src="/storage/${contents.options.image}" alt="${
+                    contents.name
+                }" style="width:90px;height:90px">
+                </td>
+                <td class="col-md-2">
+                    <div class="product-name"><a
+                            href="#">${contents.name}</a>
+                    </div>                                     
+                </td>
+
+                <td class="col-md-2">
+                    <strong>${
+                        contents.options.color
+                    }</strong>                       
+                </td>
+
+                <td class="col-md-2">
+                    <strong>${
+                        contents.options.size ? contents.options.size : "...."
+                    }</strong>                       
+                </td>
+
+                <td class="col-md-2">
+                <button data-cart-id = "${
+                    contents.rowId
+                }" id="decrementBtn" class="btn btn-danger btn-sm" ${
+                    contents.qty <= 1 ? "disabled" : ""
+                }>-</button>                      
+                <input type="text" value="${
+                    contents.qty
+                }" min="1" max="100" style="width:25px">
+                <button data-cart-id = "${
+                    contents.rowId
+                }" id="incrementBtn"  class="btn btn-success btn-sm">+</button>
+                 </td>
+
+                 <td class="col-md-2">
+                    <strong>৳ ${
+                        contents.subtotal
+                    }</strong>                       
+                </td>
+                
+                <td class="col-md-1 close-btn">
+                    <button id="incrementBtn" class="btn btn-danger" data-cart-id = "${
+                        contents.rowId
+                    }" id="cartRemoveBtn" style="width:24px;height:26px;"><i class="fa fa-times" style="display: flex;
+                    align-items: center;
+                    justify-content: center;"></i></button>
+                </td>
+            </tr>
+
+                `;
+            }
+            document.querySelectorAll("#cartRemoveBtn").forEach((cart) => {
+                cart.addEventListener("click", () =>
+                    removeMiniCartItem(cart.dataset.cartId)
+                );
+            });
+
+            document.querySelectorAll("#decrementBtn").forEach((cart) => {
+                cart.addEventListener("click", () =>
+                    cartDcrement(cart.dataset.cartId)
+                );
+            });
+
+            document.querySelectorAll("#incrementBtn").forEach((cart) => {
+                cart.addEventListener("click", () =>
+                    cartIncrement(cart.dataset.cartId)
+                );
+            });
+        } else {
+            cart.innerHTML = `
+            <h3 class = 'text-info'>You don't have any wishlist</h>
+
+            `;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 async function wishlistRemove(proId) {
     try {
         const response = await fetch("/user/remove/wishlist/" + proId);
@@ -319,124 +437,10 @@ loadMiniCart();
 // load wishlist items
 document.getElementById("wishlist") && getWishList();
 
+//load cart items
+document.getElementById("cartPage") && getCart();
+
 window.addEventListener("load", async () => {
-    // const productPreviewBtn = document.querySelectorAll("#productPreviewBtn");
-    // productPreviewBtn.forEach((btn) => {
-    //     console.log(btn.dataset.productId);
-    //     btn.addEventListener("click", async () => {
-    //         try {
-    //             const response = await fetch(
-    //                 "/product/view/modal/" + btn.dataset.productId
-    //             );
-    //             const data = await response.json();
-
-    //             if (data) {
-    //                 document.querySelector("#modalPTitle").innerHTML =
-    //                     btn.dataset.language === "bangla"
-    //                         ? data.product.product_name_bn
-    //                         : data.product.product_name_en;
-    //                 document
-    //                     .querySelector("#modalPImage")
-    //                     .setAttribute(
-    //                         "src",
-    //                         `http://${location.host}/storage/${data.product.product_thumbnail}`
-    //                     );
-    //                 document.querySelector("#modalPPrice").innerHTML = data
-    //                     .product.discount_price
-    //                     ? "৳ " +
-    //                       Math.round(
-    //                           data.product.selling_price -
-    //                               data.product.selling_price *
-    //                                   (data.product.discount_price / 100)
-    //                       )
-    //                     : "৳ " + data.product.selling_price;
-    //                 document.querySelector("#modalPCode").innerHTML =
-    //                     data.product.product_code;
-    //                 document.querySelector("#modalPCategory").innerHTML =
-    //                     btn.dataset.language === "bangla"
-    //                         ? data.categoryBan
-    //                         : data.categoryEng;
-    //                 document.querySelector("#modalPBrand").innerHTML =
-    //                     btn.dataset.language === "bangla"
-    //                         ? data.brandBan
-    //                         : data.brandEng;
-    //                 if (data.product.product_qty > 0) {
-    //                     document.querySelector("#modalPStock").innerHTML =
-    //                         "Available";
-
-    //                     document.querySelector(
-    //                         "#modalPStock"
-    //                     ).style.backgroundColor = "green";
-    //                     document.querySelector("#modalPStock").style.color =
-    //                         "white";
-    //                 } else {
-    //                     document.querySelector("#modalPStock").innerHTML =
-    //                         "Out of Stock";
-    //                     document.querySelector(
-    //                         "#modalPStock"
-    //                     ).style.backgroundColor = "red";
-    //                     document.querySelector("#modalPStock").style.color =
-    //                         "white";
-    //                 }
-
-    //                 if (
-    //                     data.productSizeEng.length === 0 ||
-    //                     data.productSizeBan.length === 0
-    //                 ) {
-    //                     document.querySelector(
-    //                         "#modalPSizeSection"
-    //                     ).style.display = "none";
-    //                 } else {
-    //                     document.querySelector(
-    //                         "#modalPSizeSection"
-    //                     ).style.display = "block";
-    //                     document.querySelector("#modalPSize").innerHTML = "";
-
-    //                     if (btn.dataset.language === "bangla") {
-    //                         data.productSizeBan.forEach((size) => {
-    //                             document.querySelector(
-    //                                 "#modalPSize"
-    //                             ).innerHTML += `<option value=${size}>${size}</option>`;
-    //                         });
-    //                     } else {
-    //                         data.productSizeEng.forEach((size) => {
-    //                             document.querySelector(
-    //                                 "#modalPSize"
-    //                             ).innerHTML += `<option value=${size}>${size}</option>`;
-    //                         });
-    //                     }
-    //                 }
-
-    //                 document.querySelector("#modalPColor").innerHTML = "";
-
-    //                 if (btn.dataset.language === "bangla") {
-    //                     data.productColorsBan.forEach((color) => {
-    //                         document.querySelector(
-    //                             "#modalPColor"
-    //                         ).innerHTML += `<option value=${color}>${color}</option>`;
-    //                     });
-    //                 } else {
-    //                     data.productColorsEng.forEach((color) => {
-    //                         document.querySelector(
-    //                             "#modalPColor"
-    //                         ).innerHTML += `<option value=${color}>${color}</option>`;
-    //                     });
-    //                 }
-
-    //                 document.querySelector("#modalPId").value = data.product.id;
-
-    //                 if (+data.product.product_qty === 0) {
-    //                     document.querySelector("#modalPBtn").disabled = true;
-    //                 } else {
-    //                     document.querySelector("#modalPBtn").disabled = false;
-    //                 }
-    //             }
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     });
-    // });
-
     productPreview();
 
     document

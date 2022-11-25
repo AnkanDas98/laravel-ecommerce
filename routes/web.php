@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\User\CartPageController;
 use App\Http\Controllers\User\WishlistController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\ProductController;
@@ -57,6 +58,10 @@ Route::get('/language/english', [LanguageController::class, 'english'])->name('l
 //Wishlist Route
 Route::post('/wishlist/add', [WishlistController::class,'store']);
 
+//Cart Page Route
+Route::get('/cart', [CartPageController::class, 'viewCart'])->name('mycart');
+Route::get('/get/cart', [CartPageController::class, 'getCart']);
+Route::get('/cart/{rowId}', [CartPageController::class, 'updateCart']);
 
 //----------------------------------------------------------------------------------------//
 // --------------------------------All Admin Routes---------------------------------------//
@@ -170,7 +175,6 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function(){
     Route::get('/wishlist', [WishlistController::class, 'viewWishlist'])->name('wishlist');
     Route::get('/get/wishlist', [WishlistController::class, 'getWishlist']);
     Route::get('/remove/wishlist/{id}', [WishlistController::class, 'removeWishList']);
-  
 });
 
 

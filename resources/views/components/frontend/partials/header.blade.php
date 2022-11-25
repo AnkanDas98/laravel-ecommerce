@@ -16,7 +16,7 @@
                         <li><a href="{{ route('wishlist') }}"><i
                                     class="icon fa fa-heart"></i>{{ session()->get('language') == 'bangla' ? 'ওয়িশ লিস্ট' : 'Wishlist' }}</a>
                         </li>
-                        <li><a href="#"><i
+                        <li><a href="{{ route('mycart') }}"><i
                                     class="icon fa fa-shopping-cart"></i>{{ session()->get('language') == 'bangla' ? 'কার্ট' : 'My Cart' }}</a>
                         </li>
                         <li><a href="#"><i
