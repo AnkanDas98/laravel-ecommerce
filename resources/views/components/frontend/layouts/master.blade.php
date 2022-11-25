@@ -9,6 +9,7 @@
     <meta name="author" content="">
     <meta name="keywords" content="MediaCenter, Template, eCommerce">
     <meta name="robots" content="all">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $pageTitle }}</title>
 
     <!-- Bootstrap Core CSS -->
@@ -51,7 +52,7 @@
 
         </div>
     </div>
-    <x-frontend.partials.product_modal />
+
     <!-- ============================================================= FOOTER ============================================================= -->
     <x-frontend.partials.footer />
     <!-- ============================================================= FOOTER : END============================================================= -->

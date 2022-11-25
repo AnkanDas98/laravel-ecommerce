@@ -86,6 +86,8 @@ body {
   padding: 0;
   font-family: 'Open Sans', sans-serif;
   background-color: #f3f3f3;
+  /* min-height: 100vh;
+  position: relative; */
 }
 
 .cnt-home {background-color: #f3f3f3;}
@@ -5862,3 +5864,21 @@ z-index:10000
     margin-top: 30px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
 	}
+
+/* @media(max-width:780px) {
+    .outer-bottom-xs{
+     margin-bottom: 10px;
+    }
+  } 
+
+@media(max-width:600px) {
+    .best-deal{
+     margin-bottom: 27rem;
+    }
+  } 
+
+  @media(max-width:490px) {
+    .best-deal{
+     margin-bottom: 30rem;
+    }
+  }  */

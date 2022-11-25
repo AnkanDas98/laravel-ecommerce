@@ -13,7 +13,7 @@
                         <li><a href="#"><i
                                     class="icon fa fa-user"></i>{{ session()->get('language') == 'bangla' ? 'আমার একাউন্ট' : 'My Account' }}</a>
                         </li>
-                        <li><a href="#"><i
+                        <li><a href="{{ route('wishlist') }}"><i
                                     class="icon fa fa-heart"></i>{{ session()->get('language') == 'bangla' ? 'ওয়িশ লিস্ট' : 'Wishlist' }}</a>
                         </li>
                         <li><a href="#"><i

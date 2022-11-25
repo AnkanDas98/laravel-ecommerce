@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\User\WishlistController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\CategoryController;
@@ -52,6 +53,10 @@ Route::get('/cart/remove/{id}', [CartController::class, 'removeCartItem']);
 // Language Routes
 Route::get('/language/bangla', [LanguageController::class, 'bangla'])->name('language.bangla');
 Route::get('/language/english', [LanguageController::class, 'english'])->name('language.english');
+
+//Wishlist Route
+Route::post('/wishlist/add', [WishlistController::class,'store']);
+
 
 //----------------------------------------------------------------------------------------//
 // --------------------------------All Admin Routes---------------------------------------//
@@ -161,6 +166,11 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function(){
         Route::get('/profile/password', 'editPassword')->name('user.profile.password.edit');
         Route::put('/profile/password', 'updatePassword')->name('user.profile.password.update');
     });
+
+    Route::get('/wishlist', [WishlistController::class, 'viewWishlist'])->name('wishlist');
+    Route::get('/get/wishlist', [WishlistController::class, 'getWishlist']);
+    Route::get('/remove/wishlist/{id}', [WishlistController::class, 'removeWishList']);
+  
 });
 
 

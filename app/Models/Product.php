@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Wishlist;
 use App\Models\MultiImage;
 use App\Models\SubCategory;
 use App\Models\SubSubCategory;
@@ -39,5 +40,10 @@ class Product extends Model
     public function images()
     {
         return $this->hasMany(MultiImage::class);
+    }
+
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
     }
 }

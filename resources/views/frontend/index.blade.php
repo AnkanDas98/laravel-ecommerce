@@ -140,10 +140,15 @@
                                                                     type="button">Add
                                                                     to cart</button>
                                                             </li>
-                                                            <li class="lnk wishlist"> <a data-toggle="tooltip"
-                                                                    class="add-to-cart" href="detail.html"
-                                                                    title="Wishlist">
-                                                                    <i class="icon fa fa-heart"></i> </a> </li>
+
+
+                                                            <li> <button id="addToWishListBtn"
+                                                                    class="btn btn-primary icon" title="Wishlist"
+                                                                    type="button" data-product-id={{ $product->id }}
+                                                                    data-language={{ session()->get('language') == 'bangla' ? 'bangla' : 'English' }}>
+                                                                    <i class="fa fa-heart"></i> </button> </li>
+
+
                                                             <li class="lnk"> <a data-toggle="tooltip"
                                                                     class="add-to-cart" href="detail.html"
                                                                     title="Compare"> <i class="fa fa-signal"
@@ -1438,4 +1443,7 @@
     <!-- /.container -->
     </div>
     <!-- /#top-banner-and-menu -->
+    <!-- ============================================== Product Modal ============================================== -->
+    <x-frontend.partials.product_modal />
+    <!-- ============================================== End Product Modal ============================================== -->
 </x-frontend.layouts.master>
