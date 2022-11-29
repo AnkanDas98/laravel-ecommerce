@@ -7,9 +7,11 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\User\CartPageController;
 use App\Http\Controllers\User\WishlistController;
+use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\ShippingController;
 use App\Http\Controllers\Frontend\HomepageController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Frontend\UserProfileController;
@@ -62,6 +64,11 @@ Route::post('/wishlist/add', [WishlistController::class,'store']);
 Route::get('/cart', [CartPageController::class, 'viewCart'])->name('mycart');
 Route::get('/get/cart', [CartPageController::class, 'getCart']);
 Route::get('/cart/{rowId}', [CartPageController::class, 'updateCart']);
+
+//Coupon Options Route
+Route::post('/coupon-apply', [CartController::class,'applyCoupon']);
+Route::get('/coupon/calculation', [CartController::class,'calculateCoupon']);
+Route::get('/coupon/remove', [CartController::class,'removeCoupon']);
 
 //----------------------------------------------------------------------------------------//
 // --------------------------------All Admin Routes---------------------------------------//
@@ -120,6 +127,8 @@ Route::prefix('category')->middleware(['auth', 'role:admin'])->group(function(){
         
         Route::get('/subCategory/fetch/{id}', 'getSubCategory');
      });
+
+     
     
  });
 
@@ -143,6 +152,17 @@ Route::prefix('product')->middleware(['auth', 'role:admin'])->group(function(){
     
  });
 
+ Route::prefix('coupon')->middleware(['auth', 'role:admin'])->group(function(){
+  Route::controller(CouponController::class)->group(function(){
+    Route::get('/view', 'viewCoupons')->name('manage-coupon');
+    Route::post('/store', 'storeCoupon')->name('store.coupon');
+      Route::get('/{id}/edit', 'editCoupon')->name('edit.coupon');
+      Route::put('/{id}/edit', 'updateCoupon')->name('update.coupon');
+      Route::put('/status', 'updateCouponStatus')->name('update.coupon.status');
+      Route::delete('/{id}/delete', 'deleteCoupon')->name('delete.coupon');
+ });
+ });
+
 // Admin Slider Routes
  Route::prefix('slider')->middleware(['auth', 'role:admin'])->group(function(){
     Route::controller(SliderController::class)->group(function(){
@@ -155,6 +175,32 @@ Route::prefix('product')->middleware(['auth', 'role:admin'])->group(function(){
     });
     
  });
+
+//  Shiping All Routes
+Route::prefix('shipping')->middleware(['auth', 'role:admin'])->group(function(){
+  Route::controller(ShippingController::class)->group(function(){
+    Route::get('/divison/view', 'divisonView')->name('all.divison');
+    Route::post('/divison/store', 'storeDivison')->name('store.divison');
+    Route::get('/divison/{id}/edit', 'editDivison')->name('edit.divison');
+    Route::put('/divison/{id}/edit', 'updateDivison')->name('update.divison');
+    Route::delete('/divison/{id}/delete', 'deleteDivison')->name('delete.divison');
+
+    Route::get('/district/view', 'districtView')->name('all.district');
+    Route::post('/district/store', 'storeDistrict')->name('store.district');
+    Route::get('/district/{id}/edit', 'editDistrict')->name('edit.district');
+    Route::put('/district/{id}/edit', 'updateDistrict')->name('update.district');
+    Route::delete('/district/{id}/delete', 'deleteDistrict')->name('delete.district');
+
+    Route::get('/state/view', 'stateView')->name('all.state');
+    Route::post('/state/store', 'storeState')->name('store.state');
+    Route::get('/state/{id}/edit', 'editState')->name('edit.state');
+    Route::put('/state/{id}/edit', 'updateState')->name('update.state');
+    Route::delete('/state/{id}/delete', 'deleteState')->name('delete.state');
+
+    Route::get('/get/district/{divisonId}', 'getDistrict');
+  });
+  
+});
 
 //----------------------------------------------------------------------------------------//
 // --------------------------------All User Routes---------------------------------------//

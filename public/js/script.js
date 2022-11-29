@@ -1,4 +1,41 @@
 // For Admin
+
+const getDistricts = async (id = null, e = null) => {
+    console.log(id);
+    if (!e && !id) {
+        document.querySelector("#selectDistrict").innerHTML = "";
+    }
+    if (e && !e.target.value) {
+        document.querySelector("#selectDistrict").innerHTML = "";
+    }
+    const divisonId = e ? e.target.value : id;
+    try {
+        const response = await fetch("/shipping/get/district/" + divisonId);
+        const data = await response.json();
+
+        document.querySelector("#selectDistrict").innerHTML = "";
+
+        data.districts.forEach((district) => {
+            if (document.querySelector("#selectDistrict").dataset.need) {
+                document.querySelector("#selectDistrict").innerHTML += `
+            <option value="${district.id}" ${
+                    district.id ===
+                    +document.querySelector("#selectDistrict").dataset
+                        .stateDistrictId
+                        ? "selected"
+                        : ""
+                } >${district.district_name}</option> 
+            `;
+            }
+            document.querySelector("#selectDistrict").innerHTML += `
+            <option value="${district.id}" >${district.district_name}</option> 
+            `;
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 window.addEventListener("load", () => {
     // For Single Image
     const image_input = document.querySelector("#image");
@@ -190,12 +227,25 @@ window.addEventListener("load", () => {
     subCategory &&
         subCategory.addEventListener("change", (e) => getSubSubCategory("", e));
 
-    //Add multiImage
-    document
-        .querySelector("#add_image")
-        .addEventListener("change", function () {
-            this.form.submit();
-        });
+    // get districts
 
-    // preview product
+    document.querySelector("#selectDivison") &&
+        document.querySelector("#selectDivison").value &&
+        getDistricts(document.querySelector("#selectDivison").value, "");
+
+    document
+        .querySelector("#selectDivison")
+        .addEventListener("change", (e) => getDistricts("", e));
+    document.querySelector("#selectDivison") &&
+        document
+            .querySelector("#selectDivison")
+            .addEventListener("change", (e) => getDistricts("", e));
+
+    //Add multiImage
+    document.querySelector("#add_image") &&
+        document
+            .querySelector("#add_image")
+            .addEventListener("change", function () {
+                this.form.submit();
+            });
 });

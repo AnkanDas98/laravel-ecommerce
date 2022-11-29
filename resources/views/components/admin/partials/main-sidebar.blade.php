@@ -109,6 +109,38 @@
                 </ul>
             </li>
 
+            <li class="treeview {{ $prefix == '/cupons' ? 'active' : '' }}">
+                <a href="#">
+                    <i data-feather="file"></i>
+                    <span>Coupons</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{ $route == 'manage-coupon' ? 'active' : '' }}"><a
+                            href="{{ route('manage-coupon') }}"><i class="ti-more"></i>Manage Coupon</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview {{ $prefix == '/shipping' ? 'active' : '' }}">
+                <a href="#">
+                    <i data-feather="file"></i>
+                    <span>Shiping Area</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{ $route == 'all.divison' ? 'active' : '' }}"><a href="{{ route('all.divison') }}"><i
+                                class="ti-more"></i>Shipping Divisons</a></li>
+                    <li class="{{ $route == 'all.district' ? 'active' : '' }}"><a
+                            href="{{ route('all.district') }}"><i class="ti-more"></i>Shipping District</a></li>
+                    <li class="{{ $route == 'all.state' ? 'active' : '' }}"><a href="{{ route('all.state') }}"><i
+                                class="ti-more"></i>Shipping State</a></li>
+                </ul>
+            </li>
+
 
             <li class="header nav-small-cap">User Interface</li>
 
@@ -149,11 +181,11 @@
 
     <div class="sidebar-footer">
         <!-- item-->
-        <a href="javascript:void(0)" class="link" data-toggle="tooltip" title="" data-original-title="Settings"
-            aria-describedby="tooltip92529"><i class="ti-settings"></i></a>
+        <a href="javascript:void(0)" class="link" data-toggle="tooltip" title=""
+            data-original-title="Settings" aria-describedby="tooltip92529"><i class="ti-settings"></i></a>
         <!-- item-->
-        <a href="mailbox_inbox.html" class="link" data-toggle="tooltip" title="" data-original-title="Email"><i
-                class="ti-email"></i></a>
+        <a href="mailbox_inbox.html" class="link" data-toggle="tooltip" title=""
+            data-original-title="Email"><i class="ti-email"></i></a>
         <!-- item-->
         <a href="javascript:void(0)" class="link" data-toggle="tooltip" title=""
             data-original-title="Logout"><i class="ti-lock"></i></a>

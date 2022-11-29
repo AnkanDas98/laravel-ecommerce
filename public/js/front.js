@@ -184,6 +184,7 @@ async function removeMiniCartItem(rowId) {
         if (response.ok) {
             loadMiniCart();
             document.getElementById("cartPage") && getCart();
+            calculateCoupon();
         }
     } catch (error) {
         console.log(error);
@@ -308,6 +309,7 @@ async function cartDcrement(id) {
         if (response.ok) {
             getCart();
             loadMiniCart();
+            calculateCoupon();
         }
     } catch (error) {
         console.log(error);
@@ -320,6 +322,7 @@ async function cartIncrement(id) {
         if (response.ok) {
             getCart();
             loadMiniCart();
+            calculateCoupon();
         }
     } catch (error) {
         console.log(error);
@@ -381,9 +384,9 @@ async function getCart() {
                 </td>
                 
                 <td class="col-md-1 close-btn">
-                    <button id="incrementBtn" class="btn btn-danger" data-cart-id = "${
+                    <button id="cartRemoveBtn" class="btn btn-danger" data-cart-id = "${
                         contents.rowId
-                    }" id="cartRemoveBtn" style="width:24px;height:26px;"><i class="fa fa-times" style="display: flex;
+                    }"  style="width:24px;height:26px;"><i class="fa fa-times" style="display: flex;
                     align-items: center;
                     justify-content: center;"></i></button>
                 </td>
@@ -431,6 +434,141 @@ async function wishlistRemove(proId) {
     }
 }
 
+async function applyCoupon() {
+    document.getElementById("couponError").style.display = "none";
+    if (couponInput.value === "") {
+        document.getElementById("couponError").style.display = "inline";
+        return;
+    }
+    const coupon = couponInput.value;
+    couponInput.value = "";
+    try {
+        const response = await fetch("/coupon-apply", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
+            },
+            body: JSON.stringify({ coupon }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+            });
+            if (!data.error) {
+                document.getElementById("couponForm").style.display = "none";
+                calculateCoupon();
+                Toast.fire({
+                    icon: "success",
+                    title: data.success,
+                });
+            } else {
+                document.getElementById("couponError").style.display = "inline";
+                document.getElementById("couponError").innerHTML =
+                    "Please Enter a Valid Coupon";
+
+                Toast.fire({
+                    icon: "error",
+                    title: data.error,
+                });
+            }
+            // End Message
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function calculateCoupon() {
+    document.getElementById("applyCoupon").innerHTML = "";
+
+    try {
+        const response = await fetch("/coupon/calculation");
+        const data = await response.json();
+        if (response.ok) {
+            if (data.total) {
+                document.getElementById("couponForm").style.display = "block";
+                document.getElementById("applyCoupon").innerHTML = `
+                        <tr>
+                            <th>
+                                <div class="cart-sub-total">
+                                    Subtotal<span class="inner-left-md">৳ ${data.total}</span>
+                                </div>
+                                <div class="cart-grand-total">
+                                    Grand Total<span class="inner-left-md">৳ ${data.total}</span>
+                                </div>
+                            </th>
+                        </tr>
+                `;
+            } else {
+                document.getElementById("couponForm").style.display = "none";
+                document.getElementById("applyCoupon").innerHTML = `
+
+                <tr>
+                    <th>
+                    <button type='submit' onclick="couponRemove()" class='btn btn-info btn-sm'>Remove Coupon</button
+                    </th>
+                </tr>
+
+                <tr>
+                <th>
+
+                   <div class="cart-sub-total">
+                        Coupon<span class="inner-left-md"> ${data.coupon_name}</span>
+                        
+                   </div>
+
+                    <div class="cart-sub-total">
+                        Subtotal<span class="inner-left-md">৳ ${data.subTotal}</span>
+                    </div>
+
+                    <div class="cart-sub-total">
+                    Discount Amount<span class="inner-left-md">৳ ${data.discount_amount}</span>
+                </div>
+
+                    <div class="cart-grand-total">
+                        Grand Total<span class="inner-left-md">৳ ${data.total_amount}</span>
+                    </div>
+                </th>
+            </tr>  
+                `;
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function couponRemove() {
+    try {
+        const response = await fetch("/coupon/remove");
+        const data = await response.json();
+        if (response.ok) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+            });
+
+            Toast.fire({
+                icon: "success",
+                title: data.success,
+            });
+            document.getElementById("couponForm").style.display = "block";
+            calculateCoupon();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 //Mini Cart Functionality
 loadMiniCart();
 
@@ -439,6 +577,11 @@ document.getElementById("wishlist") && getWishList();
 
 //load cart items
 document.getElementById("cartPage") && getCart();
+
+document.getElementById("applyCoupon") && calculateCoupon();
+
+const couponInput = document.getElementById("couponInput");
+const couponBtn = document.getElementById("couponBtn");
 
 window.addEventListener("load", async () => {
     productPreview();
@@ -450,4 +593,6 @@ window.addEventListener("load", async () => {
                 addToWishList(element.dataset.productId)
             )
         );
+
+    couponBtn && couponBtn.addEventListener("click", () => applyCoupon());
 });
