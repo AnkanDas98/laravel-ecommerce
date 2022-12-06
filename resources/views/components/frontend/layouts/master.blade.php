@@ -37,6 +37,14 @@
         rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <style>
+        /**
+     * The CSS shown here will not be introduced in the Quickstart guide, but shows
+     * how you can use CSS to style your Element's container.
+     */
+    </style>
 </head>
 
 <body class="cnt-home">

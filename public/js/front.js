@@ -493,6 +493,14 @@ async function calculateCoupon() {
         const data = await response.json();
         if (response.ok) {
             if (data.total) {
+                document
+                    .getElementById("checkoutBtn")
+                    .removeAttribute("disabled");
+                if (+data.total === 0) {
+                    document
+                        .getElementById("checkoutBtn")
+                        .setAttribute("disabled", "disabled");
+                }
                 document.getElementById("couponForm").style.display = "block";
                 document.getElementById("applyCoupon").innerHTML = `
                         <tr>
@@ -569,6 +577,149 @@ async function couponRemove() {
     }
 }
 
+async function getDistricts(e) {
+    if (e && !e.target.value) {
+        document.querySelector("#selectDistrict").innerHTML = "";
+    }
+    const divisonId = e.target.value;
+    try {
+        const response = await fetch("/shipping/get/district/" + divisonId);
+        const data = await response.json();
+
+        document.querySelector("#selectDistrict").innerHTML = "";
+
+        data.districts.forEach((district) => {
+            if (document.querySelector("#selectDistrict").dataset.need) {
+                document.querySelector("#selectDistrict").innerHTML += `
+            <option value="${district.id}" ${
+                    district.id ===
+                    +document.querySelector("#selectDistrict").dataset
+                        .stateDistrictId
+                        ? "selected"
+                        : ""
+                } >${district.district_name}</option> 
+            `;
+            }
+            document.querySelector("#selectDistrict").innerHTML += `
+            <option value="${district.id}" >${district.district_name}</option>
+            `;
+        });
+        document.querySelector("#selectDistrict").value &&
+            getState(document.querySelector("#selectDistrict").value);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function getState(divisonId) {
+    if (!divisonId) {
+        document.querySelector("#selectState").innerHTML = "";
+    }
+    const stateId = divisonId;
+    try {
+        const response = await fetch("/shipping/get/state/" + stateId);
+        const data = await response.json();
+        document.querySelector("#selectState").innerHTML = "";
+
+        if (data.states.length > 0) {
+            data.states.forEach((state) => {
+                document.querySelector("#selectState").innerHTML += `
+            <option value="${state.id}" >${state.state_name}</option> 
+            `;
+            });
+        } else {
+            document.querySelector("#selectState").innerHTML += `
+        <option value = "">No state found</option> 
+        `;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function getStripForm() {
+    try {
+        const response = await fetch("/user/stripe/key");
+        const { stripe_key, stripeData } = await response.json();
+        stripe = Stripe(stripe_key);
+        const appearance = {
+            theme: "stripe",
+
+            variables: {
+                colorPrimary: "#0570de",
+                colorBackground: "#ffffff",
+                colorText: "#30313d",
+                colorDanger: "#df1b41",
+                fontFamily: "Ideal Sans, system-ui, sans-serif",
+                spacingUnit: "2px",
+                borderRadius: "4px",
+                // See all possible variables below
+            },
+        };
+        const clientSecret = stripeData.client_secret;
+        stripeElements = stripe.elements({ clientSecret, appearance });
+        const paymentElement = stripeElements.create("payment");
+        paymentElement.mount("#payment-element");
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function stripeSubmitHandler(e) {
+    e.preventDefault();
+    const { paymentIntent } = await stripe.confirmPayment({
+        //`Elements` instance that was used to create the Payment Element
+        elements: stripeElements,
+
+        confirmParams: {
+            return_url: "https://example.com/order/123/complete",
+        },
+
+        redirect: "if_required",
+    });
+    console.log(paymentIntent);
+
+    if (paymentIntent) {
+        try {
+            const name = document.getElementById("shipName").value;
+            const email = document.getElementById("shipEmail").value;
+            const phone = document.getElementById("shipPhone").value;
+            const postCode = document.getElementById("shipPostCode").value;
+            const divisonId = document.getElementById("shipDivisonCode").value;
+            const districtId =
+                document.getElementById("shipDistrictCode").value;
+            const stateId = document.getElementById("shipStateCode").value;
+            const note = document.getElementById("shipNotes").value;
+            // const paymentIntent = data.payment_intent;
+            const response = await fetch("/user/stripe/order", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document
+                        .querySelector('meta[name="csrf-token"]')
+                        .getAttribute("content"),
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    phone,
+                    postCode,
+                    divisonId,
+                    districtId,
+                    stateId,
+                    note,
+                    paymentIntent,
+                }),
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+const couponInput = document.getElementById("couponInput");
+const couponBtn = document.getElementById("couponBtn");
+
 //Mini Cart Functionality
 loadMiniCart();
 
@@ -580,8 +731,19 @@ document.getElementById("cartPage") && getCart();
 
 document.getElementById("applyCoupon") && calculateCoupon();
 
-const couponInput = document.getElementById("couponInput");
-const couponBtn = document.getElementById("couponBtn");
+//------------------------Stripe Part------------------------//
+
+var stripe;
+var stripeElements;
+const form = document.getElementById("payment-form");
+
+form && getStripForm();
+
+form && form.addEventListener("submit", (e) => stripeSubmitHandler(e));
+
+//-----------------------End Stripe Part----------------------//
+
+// Create a Stripe client.
 
 window.addEventListener("load", async () => {
     productPreview();
@@ -595,4 +757,13 @@ window.addEventListener("load", async () => {
         );
 
     couponBtn && couponBtn.addEventListener("click", () => applyCoupon());
+    document.querySelector("#selectDivison") &&
+        document
+            .querySelector("#selectDivison")
+            .addEventListener("change", (e) => getDistricts(e));
+
+    document.querySelector("#selectDistrict") &&
+        document
+            .querySelector("#selectDistrict")
+            .addEventListener("change", (e) => getState(e.target.value));
 });

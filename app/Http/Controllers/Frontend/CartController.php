@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Models\Coupon;
 use App\Models\Product;
+use App\Models\ShipDivison;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
@@ -109,5 +111,18 @@ class CartController extends Controller
     public function removeCoupon(){
         Session::forget('coupon');
         return response()->json(['success' => 'Coupon remove successfully']);
+    }
+
+    public function checkout(){
+        if(Auth::check()){
+            
+            $carts = Cart::content();
+            $cartQty = Cart::count();
+            $cartTotal = Cart::total();
+            $divisons = ShipDivison::orderBy('divison_name', "ASC")->get();
+            return view('frontend.checkout.checkout_view',compact('carts', 'cartQty', 'cartTotal','divisons'));
+        }else{
+            return redirect()->route('login')->with('error', 'Please login first');
+        }
     }
 }

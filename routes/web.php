@@ -3,9 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\User\CartPageController;
+use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\WishlistController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\SliderController;
@@ -69,6 +71,11 @@ Route::get('/cart/{rowId}', [CartPageController::class, 'updateCart']);
 Route::post('/coupon-apply', [CartController::class,'applyCoupon']);
 Route::get('/coupon/calculation', [CartController::class,'calculateCoupon']);
 Route::get('/coupon/remove', [CartController::class,'removeCoupon']);
+
+
+
+// Checkout
+Route::get('/checkout', [CartController::class,'checkout'])->name('checkout');
 
 //----------------------------------------------------------------------------------------//
 // --------------------------------All Admin Routes---------------------------------------//
@@ -177,27 +184,28 @@ Route::prefix('product')->middleware(['auth', 'role:admin'])->group(function(){
  });
 
 //  Shiping All Routes
-Route::prefix('shipping')->middleware(['auth', 'role:admin'])->group(function(){
+Route::prefix('shipping')->middleware(['auth'])->group(function(){
   Route::controller(ShippingController::class)->group(function(){
-    Route::get('/divison/view', 'divisonView')->name('all.divison');
-    Route::post('/divison/store', 'storeDivison')->name('store.divison');
-    Route::get('/divison/{id}/edit', 'editDivison')->name('edit.divison');
-    Route::put('/divison/{id}/edit', 'updateDivison')->name('update.divison');
-    Route::delete('/divison/{id}/delete', 'deleteDivison')->name('delete.divison');
+    Route::get('/divison/view', 'divisonView')->middleware('role:admin')->name('all.divison');
+    Route::post('/divison/store', 'storeDivison')->middleware('role:admin')->name('store.divison');
+    Route::get('/divison/{id}/edit', 'editDivison')->middleware('role:admin')->name('edit.divison');
+    Route::put('/divison/{id}/edit', 'updateDivison')->middleware('role:admin')->name('update.divison');
+    Route::delete('/divison/{id}/delete', 'deleteDivison')->middleware('role:admin')->name('delete.divison');
 
-    Route::get('/district/view', 'districtView')->name('all.district');
-    Route::post('/district/store', 'storeDistrict')->name('store.district');
-    Route::get('/district/{id}/edit', 'editDistrict')->name('edit.district');
-    Route::put('/district/{id}/edit', 'updateDistrict')->name('update.district');
-    Route::delete('/district/{id}/delete', 'deleteDistrict')->name('delete.district');
+    Route::get('/district/view', 'districtView')->middleware('role:admin')->name('all.district');
+    Route::post('/district/store', 'storeDistrict')->middleware('role:admin')->name('store.district');
+    Route::get('/district/{id}/edit', 'editDistrict')->middleware('role:admin')->name('edit.district');
+    Route::put('/district/{id}/edit', 'updateDistrict')->middleware('role:admin')->name('update.district');
+    Route::delete('/district/{id}/delete', 'deleteDistrict')->middleware('role:admin')->name('delete.district');
 
-    Route::get('/state/view', 'stateView')->name('all.state');
-    Route::post('/state/store', 'storeState')->name('store.state');
-    Route::get('/state/{id}/edit', 'editState')->name('edit.state');
-    Route::put('/state/{id}/edit', 'updateState')->name('update.state');
-    Route::delete('/state/{id}/delete', 'deleteState')->name('delete.state');
+    Route::get('/state/view', 'stateView')->middleware('role:admin')->name('all.state');
+    Route::post('/state/store', 'storeState')->middleware('role:admin')->name('store.state');
+    Route::get('/state/{id}/edit', 'editState')->middleware('role:admin')->name('edit.state');
+    Route::put('/state/{id}/edit', 'updateState')->middleware('role:admin')->name('update.state');
+    Route::delete('/state/{id}/delete', 'deleteState')->middleware('role:admin')->name('delete.state');
 
     Route::get('/get/district/{divisonId}', 'getDistrict');
+    Route::get('/get/state/{districtId}', 'getStates');
   });
   
 });
@@ -221,6 +229,11 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function(){
     Route::get('/wishlist', [WishlistController::class, 'viewWishlist'])->name('wishlist');
     Route::get('/get/wishlist', [WishlistController::class, 'getWishlist']);
     Route::get('/remove/wishlist/{id}', [WishlistController::class, 'removeWishList']);
+
+    Route::post('/checkout/store', [CheckoutController::class, 'storeCheckout'])->name('store.checkout');
+
+    Route::get('/stripe/key', [StripeController::class, 'getStripeKey']);
+    Route::post('/stripe/order', [StripeController::class, 'stripeOrder']);
 });
 
 

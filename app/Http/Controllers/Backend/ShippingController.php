@@ -159,6 +159,14 @@ class ShippingController extends Controller
         ]);
     }
 
+    public function getStates($districtId){
+        $states = ShipState::where('district_id', $districtId)->orderBy('state_name', 'ASC')->get();
+
+        return response()->json([
+            'states' => $states
+        ]);
+    }
+
     public function deleteState($id){
 
         ShipState::find($id)->delete();   

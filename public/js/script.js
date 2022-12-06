@@ -1,7 +1,6 @@
 // For Admin
 
 const getDistricts = async (id = null, e = null) => {
-    console.log(id);
     if (!e && !id) {
         document.querySelector("#selectDistrict").innerHTML = "";
     }
@@ -26,10 +25,11 @@ const getDistricts = async (id = null, e = null) => {
                         : ""
                 } >${district.district_name}</option> 
             `;
-            }
-            document.querySelector("#selectDistrict").innerHTML += `
+            } else {
+                document.querySelector("#selectDistrict").innerHTML += `
             <option value="${district.id}" >${district.district_name}</option> 
             `;
+            }
         });
     } catch (error) {
         console.log(error);
