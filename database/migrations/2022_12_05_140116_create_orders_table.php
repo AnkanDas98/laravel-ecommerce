@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('divison_id');
+            $table->unsignedBigInteger('division_id');
             $table->unsignedBigInteger('district_id');
             $table->unsignedBigInteger('state_id');
+            $table->string('name');
             $table->string('email');
             $table->string('phone');
             $table->integer('post_code')->nullable();
@@ -43,7 +44,7 @@ return new class extends Migration
             $table->string('return_reason')->nullable();
             $table->string('status')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('divison_id')->references('id')->on('ship_divisons')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('division_id')->references('id')->on('ship_divisons')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('district_id')->references('id')->on('ship_districts')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('state_id')->references('id')->on('ship_states')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();

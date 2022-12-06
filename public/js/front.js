@@ -677,7 +677,6 @@ async function stripeSubmitHandler(e) {
 
         redirect: "if_required",
     });
-    console.log(paymentIntent);
 
     if (paymentIntent) {
         try {
@@ -690,7 +689,8 @@ async function stripeSubmitHandler(e) {
                 document.getElementById("shipDistrictCode").value;
             const stateId = document.getElementById("shipStateCode").value;
             const note = document.getElementById("shipNotes").value;
-            // const paymentIntent = data.payment_intent;
+            const paymentIntentId = paymentIntent.id;
+
             const response = await fetch("/user/stripe/order", {
                 method: "POST",
                 headers: {
@@ -708,9 +708,37 @@ async function stripeSubmitHandler(e) {
                     districtId,
                     stateId,
                     note,
-                    paymentIntent,
+                    paymentIntentId,
                 }),
             });
+            const data = await response.json();
+
+            if (data.success) {
+                // const Toast = Swal.mixin({
+                //     toast: true,
+                //     showConfirmButton: false,
+                //     timer: 10000,
+                // });
+
+                Swal.fire({
+                    title: "Order is Sucessfull",
+                    width: 600,
+                    html: "Wait For Redirection.",
+                    timer: 6000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    },
+                    willClose: () => {
+                        window.location.href = "/dashboard";
+                    },
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log("I was closed by the timer");
+                    }
+                });
+            }
         } catch (error) {
             console.log(error);
         }
@@ -742,8 +770,6 @@ form && getStripForm();
 form && form.addEventListener("submit", (e) => stripeSubmitHandler(e));
 
 //-----------------------End Stripe Part----------------------//
-
-// Create a Stripe client.
 
 window.addEventListener("load", async () => {
     productPreview();
