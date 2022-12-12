@@ -16,7 +16,6 @@ class CartController extends Controller
 {
     public function store(Request $request){
         $product = Product::findOrfail($request->product_id);
-
         Cart::add([
             'id' => $request->product_id,
             'name' =>  session()->get('language') == 'bangla' ? $product->product_name_bn : $product->product_name_en ,
@@ -41,8 +40,8 @@ class CartController extends Controller
                 ]);
             }
 
-        // return redirect('/')->with('success', 'Added to Cart');
-        return redirect()->back()->with('success', 'Added to Cart');
+            // return redirect()->back()->with('success', 'Added to Cart');
+            return response()->json(['success' => 'Added to Cart']);
         
     }
 

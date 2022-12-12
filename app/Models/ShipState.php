@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Order;
 use App\Models\ShipDivison;
 use App\Models\ShipDistrict;
 use Illuminate\Database\Eloquent\Model;
@@ -20,5 +21,10 @@ class ShipState extends Model
     public function district()
     {
         return $this->belongsTo(ShipDistrict::class, 'district_id', 'id');
+    }
+
+    public function order()
+    {
+        return $this->hasMany(Order::class);
     }
 }

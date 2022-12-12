@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\User\StripeController;
+use App\Http\Controllers\User\AllUserController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\User\CartPageController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\WishlistController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\User\CashOrderController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ShippingController;
@@ -48,7 +50,7 @@ Route::get('/category/{id}/{slug}', [HomepageController::class, 'productByCatego
 Route::get('/product/view/modal/{id}', [HomepageController::class, 'productPreview']);
 
 // Add to Cart
-Route::post('/cart/data/store', [CartController::class, 'store'])->name('store.cart');
+Route::post('/cart/data/store', [CartController::class, 'store']);
 
 //fetch cart data
 Route::get('/cart/data/get', [CartController::class, 'getCartData']);
@@ -226,6 +228,12 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function(){
         Route::put('/profile/password', 'updatePassword')->name('user.profile.password.update');
     });
 
+   Route::controller(AllUserController::class)->group(function(){
+    Route::get('/my/orders', 'showOrders')->name('my-orders');
+    Route::get('/order/details/{id}', 'orderDetails');
+    Route::get('/invoice/download/{id}', 'invoiceDownload');
+   });
+
     Route::get('/wishlist', [WishlistController::class, 'viewWishlist'])->name('wishlist');
     Route::get('/get/wishlist', [WishlistController::class, 'getWishlist']);
     Route::get('/remove/wishlist/{id}', [WishlistController::class, 'removeWishList']);
@@ -234,6 +242,8 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function(){
 
     Route::get('/stripe/key', [StripeController::class, 'getStripeKey']);
     Route::post('/stripe/order', [StripeController::class, 'stripeOrder']);
+
+    Route::post('/cash/order', [CashOrderController::class, 'cashOrder'])->name('cash.order');
 });
 
 

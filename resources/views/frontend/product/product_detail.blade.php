@@ -143,13 +143,13 @@
                                         </div><!-- /.row -->
                                     </div><!-- /.price-container -->
                                     {{-- Product Color And Product Size --}}
-                                    <form action="{{ route('store.cart') }}" method="POST">
-                                        @csrf
+                                    <form>
+
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     {{-- <label class="info-title control-label">Choose Color </label> --}}
-                                                    <select class="form-control" name="product_color">
+                                                    <select class="form-control" id="modalPColor" name="product_color">
                                                         <option selected disabled>Choose Color</option>
                                                         @if (session()->get('language') == 'bangla')
                                                             @foreach ($productColorsBan as $item)
@@ -174,7 +174,8 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         {{-- <label class="info-title control-label">Choose Size </label> --}}
-                                                        <select class="form-control" name="product_size">
+                                                        <select class="form-control" id="modalPSize"
+                                                            name="product_size">
                                                             <option selected disabled>Choose Size</option>
                                                             @if (session()->get('language') == 'bangla')
                                                                 @foreach ($productSizeBan as $item)
@@ -209,7 +210,7 @@
                                                     <div class="cart-quantity">
                                                         <div class="quant-input">
 
-                                                            <input type="number"
+                                                            <input id="modalPQty" type="number"
                                                                 {{ $product->product_qty == 0 ? 'disabled' : '' }}
                                                                 name="product_qty" min="1"
                                                                 max="{{ $product->product_qty }}"
@@ -219,11 +220,11 @@
                                                 </div>
 
                                                 <div class="col-sm-7">
-                                                    <input type="hidden" name="product_id"
+                                                    <input type="hidden" id="modalPId" name="product_id"
                                                         value="{{ $product->id }}">
-                                                    <button type="submit"
+                                                    <button type="button"
                                                         {{ $product->product_qty == 0 ? 'disabled' : '' }}
-                                                        class="btn btn-primary"><i
+                                                        class="btn btn-primary" id="modalPBtn"><i
                                                             class="fa fa-shopping-cart inner-right-vs"></i> ADD TO
                                                         CART</button>
                                                 </div>

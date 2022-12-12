@@ -329,6 +329,69 @@ async function cartIncrement(id) {
     }
 }
 
+async function addToCart(e) {
+    e.preventDefault();
+    console.log("clicked");
+    const product_id = document.getElementById("modalPId").value;
+    const product_qty = document.getElementById("modalPQty").value;
+    const product_size = document.getElementById("modalPSize").value;
+    const product_color = document.getElementById("modalPColor").value;
+
+    try {
+        const response = await fetch("/cart/data/store", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
+            },
+            body: JSON.stringify({
+                product_id,
+                product_qty,
+                product_size,
+                product_color,
+            }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+            });
+            if (!data.error) {
+                Toast.fire({
+                    icon: "success",
+                    title: data.success,
+                });
+            } else {
+                Toast.fire({
+                    icon: "error",
+                    title: data.error,
+                });
+            }
+
+            // document.getElementById("productModal").style.display = "none";
+            const modal = document.getElementById("productModal");
+
+            if (modal) {
+                modal.setAttribute("aria-hidden", "true");
+                modal.style.display = "none";
+                modal.classList.remove("in");
+                document.querySelector("body").classList.remove("modal-open");
+                document.querySelector("body").style.paddingRight = "";
+                document.querySelector(".modal-backdrop").remove();
+            }
+            loadMiniCart();
+            // End Message
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 async function getCart() {
     const cart = document.getElementById("cartPage");
     try {
@@ -751,6 +814,12 @@ const couponBtn = document.getElementById("couponBtn");
 //Mini Cart Functionality
 loadMiniCart();
 
+//add to cart
+document.querySelector("#modalPBtn") &&
+    document
+        .querySelector("#modalPBtn")
+        .addEventListener("click", (e) => addToCart(e));
+
 // load wishlist items
 document.getElementById("wishlist") && getWishList();
 
@@ -771,25 +840,47 @@ form && form.addEventListener("submit", (e) => stripeSubmitHandler(e));
 
 //-----------------------End Stripe Part----------------------//
 
-window.addEventListener("load", async () => {
-    productPreview();
+productPreview();
 
+document
+    .querySelectorAll("#addToWishListBtn")
+    .forEach((element) =>
+        element.addEventListener("click", () =>
+            addToWishList(element.dataset.productId)
+        )
+    );
+
+couponBtn && couponBtn.addEventListener("click", () => applyCoupon());
+document.querySelector("#selectDivison") &&
     document
-        .querySelectorAll("#addToWishListBtn")
-        .forEach((element) =>
-            element.addEventListener("click", () =>
-                addToWishList(element.dataset.productId)
-            )
-        );
+        .querySelector("#selectDivison")
+        .addEventListener("change", (e) => getDistricts(e));
 
-    couponBtn && couponBtn.addEventListener("click", () => applyCoupon());
-    document.querySelector("#selectDivison") &&
-        document
-            .querySelector("#selectDivison")
-            .addEventListener("change", (e) => getDistricts(e));
+document.querySelector("#selectDistrict") &&
+    document
+        .querySelector("#selectDistrict")
+        .addEventListener("change", (e) => getState(e.target.value));
 
-    document.querySelector("#selectDistrict") &&
-        document
-            .querySelector("#selectDistrict")
-            .addEventListener("change", (e) => getState(e.target.value));
-});
+// window.addEventListener("load", async () => {
+
+// productPreview();
+
+// document
+//     .querySelectorAll("#addToWishListBtn")
+//     .forEach((element) =>
+//         element.addEventListener("click", () =>
+//             addToWishList(element.dataset.productId)
+//         )
+//     );
+
+// couponBtn && couponBtn.addEventListener("click", () => applyCoupon());
+// document.querySelector("#selectDivison") &&
+//     document
+//         .querySelector("#selectDivison")
+//         .addEventListener("change", (e) => getDistricts(e));
+
+// document.querySelector("#selectDistrict") &&
+//     document
+//         .querySelector("#selectDistrict")
+//         .addEventListener("change", (e) => getState(e.target.value));
+// });

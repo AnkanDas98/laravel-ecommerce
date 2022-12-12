@@ -21,9 +21,15 @@
                     <p style="font-size:14px;margin:0 0 6px 0;"><span
                             style="font-weight:bold;display:inline-block;min-width:150px">Order status</span><b
                             style="color:green;font-weight:normal;margin:0">Success</b></p>
-                    <p style="font-size:14px;margin:0 0 6px 0;"><span
-                            style="font-weight:bold;display:inline-block;min-width:146px">Transaction ID</span>
-                        {{ $data['transaction_id'] }}</p>
+                    @if ($data['transaction_id'])
+                        <p style="font-size:14px;margin:0 0 6px 0;"><span
+                                style="font-weight:bold;display:inline-block;min-width:146px">Transaction ID</span>
+                            {{ $data['transaction_id'] }}</p>
+                    @else
+                        <p style="font-size:14px;margin:0 0 6px 0;"><span
+                                style="font-weight:bold;display:inline-block;min-width:146px">Payment Method</span>
+                            Cash on Delivery</p>
+                    @endif
                     <p style="font-size:14px;margin:0 0 0 0;"><span
                             style="font-weight:bold;display:inline-block;min-width:146px">Order amount</span> Taka
                         {{ $data['amount'] }}</p>

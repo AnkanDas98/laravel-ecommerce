@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Auth;
 
 class OrderMail extends Mailable
 {
@@ -37,6 +38,7 @@ class OrderMail extends Mailable
     {
         return new Envelope(
             from: new Address('support@starby.com', 'Ankan'),
+            to: $this->data['email'],
             subject: 'Invoice of your purchase from starby',
         );
     }

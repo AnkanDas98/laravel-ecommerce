@@ -9,14 +9,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('store.cart') }}" method="POST">
-                    @csrf
+                <form>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="card" style="width: 18rem;">
                                 <img id="modalPImage" class="card-img-top" src="" alt="Card image cap"
                                     style="height: 235px;width:235px;">
-
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -63,7 +61,7 @@
 
                         </div>
                         <input type="hidden" id="modalPId" name="product_id">
-                        <button type="submit" id="modalPBtn" class="btn btn-primary mb-2"
+                        <button type="button" id="modalPBtn" class="btn btn-primary mb-2"
                             style="margin-left: 15px;">Submit</button>
                     </div>
                 </form>

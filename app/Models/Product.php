@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Wishlist;
+use App\Models\OrderItem;
 use App\Models\MultiImage;
 use App\Models\SubCategory;
 use App\Models\SubSubCategory;
@@ -45,5 +46,11 @@ class Product extends Model
     public function wishlist()
     {
         return $this->hasMany(Wishlist::class);
+    }
+
+
+    public function orderItem()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }

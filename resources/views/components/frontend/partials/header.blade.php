@@ -23,7 +23,7 @@
                                     class="icon fa fa-check"></i>{{ session()->get('language') == 'bangla' ? 'চেকাউট' : 'Checkout' }}</a>
                         </li>
                         @auth
-                            <li><a href="#"><i
+                            <li><a href="{{ route('dashboard') }}"><i
                                         class="icon fa fa-user"></i>{{ session()->get('language') == 'bangla' ? 'ইউজার প্রোফাইল' : 'User Profile' }}</a>
                             </li>
                         @else

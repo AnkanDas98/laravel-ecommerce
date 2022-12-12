@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Order;
 use App\Models\Wishlist;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -50,5 +51,10 @@ class User extends Authenticatable
     public function wislist()
     {
         return $this->hasMany(Wishlist::class);
+    }
+
+    public function order()
+    {
+        return $this->hasMany(Order::class);
     }
 }
